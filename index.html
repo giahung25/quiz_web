@@ -251,7 +251,7 @@ function goSubjectPicker() {
 async function loadSubjectData(key) {
   const subj = SUBJECTS[key];
   try {
-    const res = await fetch(subj.file);
+    const res = await fetch(subj.file + '?v=' + new Date().getTime());
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     DATA = await res.json();
   } catch (e) {
