@@ -1,11 +1,23 @@
-# MMT Quiz Web
-Ứng dụng trắc nghiệm ôn thi môn Nhập Môn Mạng Máy Tính.
+# Ôn Thi Trắc Nghiệm Đại Học
 
-## Tính năng
-- 657 câu hỏi trắc nghiệm.
-- 12 bộ đề thi khác nhau.
-- Giao diện hiện đại, dễ sử dụng.
-- Chạy hoàn toàn trên GitHub Pages (không cần server).
+Ứng dụng web ôn thi trắc nghiệm các môn học đại học, bao gồm:
+1. **Nhập Môn Mạng Máy Tính** (657 câu, 12 bộ đề)
+2. **Lịch Sử Đảng Cộng Sản Việt Nam** (626 câu, 2 bộ đề)
 
-## Cách dùng
-Truy cập link GitHub Pages để bắt đầu ôn tập.
+## 🌟 Tính năng nổi bật
+- **Đa môn học:** Hỗ trợ giao diện chọn môn học linh hoạt.
+- **Phân chia bộ đề:** Người dùng có thể chọn thi từng bộ đề hoặc trộn tất cả các câu hỏi.
+- **Tính điểm & Chấm lỗi:** Ghi nhận điểm số, đánh dấu các câu sai để tiện xem lại.
+- **Tĩnh hoàn toàn (Static Web):** Không cần server backend, dữ liệu JSON load trực tiếp qua fetch.
+- **Chống cache:** Cơ chế load dữ liệu tránh bị lưu bộ nhớ đệm cũ (cache buster).
+- **Giao diện hiện đại:** Dark mode thân thiện với mắt, sử dụng phông chữ Inter và thiết kế có tính thẩm mỹ cao.
+- **Tương thích cao:** Tối ưu hóa trên cả điện thoại (mobile) và máy tính (desktop).
+
+## 🚀 Cách dùng
+Chỉ cần truy cập vào đường link GitHub Pages là có thể bắt đầu ôn tập trực tiếp (không cần cài đặt phần mềm).
+
+## 📁 Cấu trúc dữ liệu
+- File `index.html`: Chứa toàn bộ giao diện và logic (JS) của ứng dụng.
+- Thư mục `data/`:
+  - `mangmaytinh.json`: Ngân hàng câu hỏi môn Mạng máy tính.
+  - `lichsudang.json`: Ngân hàng câu hỏi môn Lịch sử Đảng.
