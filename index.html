@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trắc Nghiệm Nhập Môn Mạng Máy Tính</title>
+<meta name="description" content="Ứng dụng trắc nghiệm ôn thi môn Nhập Môn Mạng Máy Tính - 657 câu, 12 bộ đề">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0e1a;--bg2:#111827;--card:#1a2332;--card2:#243447;
+  --primary:#3b82f6;--primary-g:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  --green:#22c55e;--red:#ef4444;--yellow:#facc15;--white:#f1f5f9;
+  --grey:#64748b;--glass:rgba(255,255,255,0.05);
+  --labelA:#60a5fa;--labelB:#4ade80;--labelC:#fb923c;--labelD:#c084fc;--labelE:#22d3ee;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden}
+.hidden{display:none!important}
+body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(circle at 30% 40%,rgba(59,130,246,0.08) 0%,transparent 50%),
+  radial-gradient(circle at 70% 60%,rgba(139,92,246,0.06) 0%,transparent 50%);
+  animation:bgFloat 20s ease-in-out infinite;z-index:0;pointer-events:none}
+@keyframes bgFloat{0%,100%{transform:translate(0,0)}50%{transform:translate(-3%,2%)}}
+
+.screen{display:none;min-height:100vh;position:relative;z-index:1}
+.screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* Welcome */
+#welcome{gap:20px;text-align:center}
+.logo-icon{font-size:64px;color:var(--primary);filter:drop-shadow(0 0 24px rgba(59,130,246,0.4));animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+.subtitle{color:var(--labelA);font-size:.9rem}
+.config-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:24px;width:100%;max-width:500px;
+  backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.config-card label{display:block;font-size:.85rem;font-weight:600;color:var(--grey);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.radio-group{display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;padding-right:6px}
+.radio-group::-webkit-scrollbar{width:4px}
+.radio-group::-webkit-scrollbar-thumb{background:var(--card2);border-radius:4px}
+.radio-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.radio-item:hover{background:var(--glass);border-color:rgba(255,255,255,0.08)}
+.radio-item.selected{background:rgba(59,130,246,0.12);border-color:var(--primary)}
+.radio-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--grey);flex-shrink:0;transition:.2s}
+.radio-item.selected .radio-dot{border-color:var(--primary);background:var(--primary);box-shadow:inset 0 0 0 3px var(--card)}
+.radio-label{font-size:.9rem;color:var(--white)}
+.btn-start{background:var(--primary-g);color:#fff;border:none;padding:16px 48px;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:8px;transition:.3s;box-shadow:0 4px 20px rgba(59,130,246,0.3)}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(59,130,246,0.4)}
+.btn-start:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* Quiz */
+#quiz{justify-content:flex-start;padding-top:16px}
+.quiz-header{width:100%;max-width:700px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.quiz-header span{font-size:.85rem;font-weight:600}
+.progress-bar{width:100%;max-width:700px;height:5px;background:var(--card2);border-radius:8px;overflow:hidden;margin-bottom:16px}
+.progress-fill{height:100%;background:var(--primary-g);border-radius:8px;transition:width .4s ease}
+.quiz-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:28px;width:100%;max-width:700px;flex:1;
+  display:flex;flex-direction:column;gap:16px;box-shadow:0 8px 32px rgba(0,0,0,0.3);min-height:0;overflow:hidden}
+.section-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:.75rem;font-weight:700;color:var(--bg)}
+.q-text{font-size:1.05rem;font-weight:500;line-height:1.6}
+.options{display:flex;flex-direction:column;gap:10px;flex:1;overflow-y:auto;padding-right:4px}
+.options::-webkit-scrollbar{width:4px}
+.options::-webkit-scrollbar-thumb{background:var(--card2);border-radius:4px}
+.opt-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--card2);
+  cursor:pointer;transition:.25s;font-size:.92rem;color:var(--white)}
+.opt-btn:hover:not(.disabled){background:rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.3);transform:translateX(4px)}
+.opt-btn .icon{font-size:20px;color:var(--labelA);flex-shrink:0}
+.opt-btn.correct{background:rgba(34,197,94,0.15);border-color:var(--green)}
+.opt-btn.correct .icon{color:var(--green)}
+.opt-btn.wrong{background:rgba(239,68,68,0.15);border-color:var(--red)}
+.opt-btn.wrong .icon{color:var(--red)}
+.opt-btn.disabled{cursor:default;opacity:.7}
+.feedback{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600;min-height:28px}
+.feedback .icon{font-size:20px}
+.feedback.ok{color:var(--green)}
+.feedback.fail{color:var(--red)}
+.feedback .correct-ans{color:var(--yellow);font-weight:500}
+.btn-next{align-self:flex-end;background:var(--primary);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:.9rem;font-weight:600;
+  cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-next:hover{background:#2563eb;transform:translateY(-1px)}
+
+/* Result */
+#result{justify-content:flex-start;padding-top:24px;gap:16px}
+.score-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:32px;text-align:center;width:100%;max-width:600px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.score-card .grade-icon{font-size:52px}
+.score-card .grade-text{font-size:1.3rem;font-weight:700;margin:8px 0}
+.score-card .score-num{font-size:3rem;font-weight:800;color:var(--white)}
+.score-card .score-pct{color:var(--labelA);font-size:.95rem;margin:4px 0 12px}
+.score-bar{width:280px;height:8px;background:var(--card2);border-radius:8px;overflow:hidden;margin:0 auto}
+.score-bar-fill{height:100%;border-radius:8px;transition:width 1s ease}
+.action-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn-outline{background:transparent;color:var(--primary);border:1.5px solid var(--primary);padding:12px 24px;border-radius:24px;font-size:.9rem;
+  font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-outline:hover{background:rgba(59,130,246,0.1)}
+.btn-solid{background:var(--primary);color:#fff;border:none;padding:12px 24px;border-radius:24px;font-size:.9rem;font-weight:600;cursor:pointer;
+  transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-solid:hover{background:#2563eb}
+.review-title{font-size:1rem;font-weight:700;color:var(--white);width:100%;max-width:700px;text-align:left}
+.review-list{width:100%;max-width:700px;display:flex;flex-direction:column;gap:8px;flex:1;overflow-y:auto;padding-bottom:20px}
+.review-item{padding:12px 14px;border-radius:10px;font-size:.85rem}
+.review-item.ok{background:rgba(34,197,94,0.08)}
+.review-item.fail{background:rgba(239,68,68,0.08)}
+.review-item .ri-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:4px}
+.review-item .ri-head .icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.review-item.ok .ri-head .icon{color:var(--green)}
+.review-item.fail .ri-head .icon{color:var(--red)}
+.review-item .ri-detail{display:flex;gap:8px;flex-wrap:wrap;font-size:.8rem;color:var(--grey);margin-left:26px}
+.review-item .ri-detail .val{font-weight:600}
+.review-item .ri-detail .val.ok{color:var(--green)}
+.review-item .ri-detail .val.fail{color:var(--red)}
+
+/* Loading */
+.loader{display:flex;flex-direction:column;align-items:center;gap:16px}
+.spinner{width:40px;height:40px;border:3px solid var(--card2);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Error */
+.error-box{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:16px 20px;max-width:480px;
+  text-align:center;font-size:.9rem;color:#fca5a5;line-height:1.6}
+
+@media(max-width:600px){
+  h1{font-size:1.5rem}
+  .config-card,.quiz-card,.score-card{padding:18px}
+  .score-card .score-num{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- WELCOME SCREEN -->
+<div id="welcome" class="screen active">
+  <span class="material-icons-round logo-icon">wifi</span>
+  <h1>NHẬP MÔN MẠNG MÁY TÍNH</h1>
+  <p class="subtitle" id="appSubtitle">Đang tải dữ liệu...</p>
+
+  <div class="config-card" id="configCard" style="display:none">
+    <label>Chọn bộ đề</label>
+    <div class="radio-group" id="radioGroup"></div>
+  </div>
+
+  <button class="btn-start" id="btnStart" style="display:none" disabled>
+    <span class="material-icons-round">play_arrow</span> BẮT ĐẦU THI
+  </button>
+
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
+    <span style="color:var(--grey);font-size:.85rem">Đang tải câu hỏi...</span>
+  </div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div id="quiz" class="screen">
+  <div class="quiz-header">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="material-icons-round" id="btnHome" style="color:var(--grey);cursor:pointer;font-size:22px" title="Về trang chủ">home</span>
+      <span id="progressText" style="color:var(--labelA)"></span>
+    </div>
+    <span id="scoreText" style="color:var(--green)"></span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="quiz-card">
+    <div><span class="section-badge" id="sectionBadge"></span></div>
+    <p class="q-text" id="qText"></p>
+    <div style="height:1px;background:var(--card2)"></div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="feedback hidden" id="feedback"></div>
+    <button class="btn-next hidden" id="btnNext">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
+  </div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="result" class="screen">
+  <div class="score-card" id="scoreCard"></div>
+  <div class="action-btns" id="actionBtns"></div>
+  <p class="review-title">Chi tiết kết quả</p>
+  <div class="review-list" id="reviewList"></div>
+</div>
+
+<script>
+// ── DATA & STATE ──
+let DATA = null;
+const BADGE_COLORS = ['#60a5fa','#4ade80','#fb923c','#c084fc','#22d3ee','#fbbf24'];
+const state = {
+  questions: [], current: 0, score: 0,
+  selected: null, answered: false, results: [], mode: 'all', total: 0,
+  allQ: [], sections: []
+};
+
+// ── INIT ──
+async function init() {
+  try {
+    // Load từ file JSON tĩnh — hoạt động trên GitHub Pages
+    const res = await fetch('./data/mangmaytinh.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    DATA = await res.json();
+  } catch (e) {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('appSubtitle').innerHTML =
+      `<div class="error-box">⚠️ Không tải được dữ liệu.<br>Lỗi: ${e.message}<br><small>Đảm bảo file <code>data/mangmaytinh.json</code> tồn tại.</small></div>`;
+    return;
+  }
+
+  state.allQ    = DATA.questions  || [];
+  state.sections = DATA.sections  || [];
+
+  document.getElementById('loader').style.display = 'none';
+  document.getElementById('appSubtitle').textContent =
+    `Tổng ${state.allQ.length} câu · ${state.sections.length} bộ đề`;
+
+  buildRadioGroup();
+  document.getElementById('configCard').style.display = '';
+  document.getElementById('btnStart').style.display   = '';
+  document.getElementById('btnStart').disabled = state.allQ.length === 0;
+}
+
+function buildRadioGroup() {
+  const rg = document.getElementById('radioGroup');
+  rg.innerHTML = '';
+  state.mode = 'all';
+
+  const items = [{ key: 'all', label: `Tất cả (${state.allQ.length} câu)`, color: '#f1f5f9' }];
+  state.sections.forEach((s, i) =>
+    items.push({ key: s.key, label: s.label, color: BADGE_COLORS[i % BADGE_COLORS.length] })
+  );
+
+  items.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'radio-item' + (idx === 0 ? ' selected' : '');
+    div.innerHTML = `<div class="radio-dot"></div><span class="radio-label" style="color:${item.color}">${item.label}</span>`;
+    div.addEventListener('click', () => {
+      rg.querySelectorAll('.radio-item').forEach(r => r.classList.remove('selected'));
+      div.classList.add('selected');
+      state.mode = item.key;
+    });
+    rg.appendChild(div);
+  });
+}
+
+// ── QUIZ LOGIC ──
+function startQuiz() {
+  let pool = state.mode === 'all'
+    ? [...state.allQ]
+    : state.allQ.filter(q => q.section === state.mode);
+  shuffle(pool);
+  state.questions = pool;
+  state.total     = pool.length;
+  state.current   = 0; state.score = 0;
+  state.selected  = null; state.answered = false; state.results = [];
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = state.questions[state.current];
+  const opts = [...q.options]; shuffle(opts);
+
+  document.getElementById('progressText').textContent = `Câu ${state.current + 1} / ${state.total}`;
+  document.getElementById('scoreText').textContent    = `Đúng: ${state.score}`;
+  document.getElementById('progressFill').style.width = `${(state.current / state.total) * 100}%`;
+
+  const badge  = document.getElementById('sectionBadge');
+  const secIdx = state.sections.findIndex(s => s.key === q.section);
+  badge.textContent   = q.sectionLabel || q.section;
+  badge.style.background = BADGE_COLORS[(secIdx >= 0 ? secIdx : 0) % BADGE_COLORS.length];
+
+  document.getElementById('qText').textContent = q.question;
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  state.answered = false; state.selected = null;
+
+  opts.forEach(opt => {
+    const btn = document.createElement('div');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="material-icons-round icon">radio_button_unchecked</span><span>${escHtml(opt)}</span>`;
+    btn.addEventListener('click', () => selectOption(opt, opts, q.answer));
+    container.appendChild(btn);
+  });
+
+  document.getElementById('feedback').classList.add('hidden');
+  document.getElementById('btnNext').classList.add('hidden');
+}
+
+function selectOption(chosen, opts, correct) {
+  if (state.answered) return;
+  state.answered = true; state.selected = chosen;
+  const ok = chosen === correct;
+  if (ok) state.score++;
+  state.results.push({ question: state.questions[state.current].question, chosen, correct, ok });
+
+  document.getElementById('scoreText').textContent = `Đúng: ${state.score}`;
+
+  const btns = document.querySelectorAll('#optionsContainer .opt-btn');
+  btns.forEach((btn, i) => {
+    btn.classList.add('disabled');
+    const optText = opts[i];
+    const icon    = btn.querySelector('.icon');
+    if (optText === correct)         { btn.classList.add('correct'); icon.textContent = 'check_circle'; }
+    else if (optText === chosen && !ok) { btn.classList.add('wrong');   icon.textContent = 'cancel'; }
+  });
+
+  const fb = document.getElementById('feedback');
+  fb.classList.remove('hidden','ok','fail');
+  if (ok) {
+    fb.classList.add('ok');
+    fb.innerHTML = `<span class="material-icons-round icon">check_circle</span> Chính xác!`;
+  } else {
+    fb.classList.add('fail');
+    fb.innerHTML = `<span class="material-icons-round icon">cancel</span> Sai! Đáp án đúng: <span class="correct-ans">${escHtml(correct)}</span>`;
+  }
+  document.getElementById('btnNext').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  if (state.current + 1 >= state.total) { showResult(); return; }
+  state.current++;
+  renderQuestion();
+  document.getElementById('optionsContainer').scrollTop = 0;
+}
+
+// ── RESULT ──
+function showResult() {
+  showScreen('result');
+  const pct = (state.score / state.total) * 100;
+  let gradeColor, gradeText, gradeIcon;
+  if (pct >= 80)      { gradeColor='var(--green)';  gradeText='Xuất sắc! 🎉'; gradeIcon='star'; }
+  else if (pct >= 60) { gradeColor='var(--yellow)'; gradeText='Khá tốt!';     gradeIcon='thumb_up'; }
+  else                { gradeColor='var(--red)';    gradeText='Cần ôn tập thêm'; gradeIcon='menu_book'; }
+
+  document.getElementById('scoreCard').innerHTML = `
+    <span class="material-icons-round grade-icon" style="color:${gradeColor}">${gradeIcon}</span>
+    <div class="grade-text" style="color:${gradeColor}">${gradeText}</div>
+    <div class="score-num">${state.score} / ${state.total}</div>
+    <div class="score-pct">${pct.toFixed(0)}% câu đúng</div>
+    <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%;background:${gradeColor}"></div></div>`;
+
+  document.getElementById('actionBtns').innerHTML = `
+    <button class="btn-outline" onclick="startQuiz()"><span class="material-icons-round" style="font-size:18px">refresh</span> Thi lại</button>
+    <button class="btn-solid"   onclick="goHome()"><span class="material-icons-round" style="font-size:18px">home</span> Về trang chủ</button>`;
+
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  state.results.forEach((r, i) => {
+    const cls  = r.ok ? 'ok' : 'fail';
+    const icon = r.ok ? 'check_circle' : 'cancel';
+    const qShort = r.question.length > 90 ? r.question.slice(0,90)+'...' : r.question;
+    const detail = r.ok
+      ? `<span>Bạn chọn:</span> <span class="val ok">${escHtml(r.chosen)}</span>`
+      : `<span>Bạn chọn:</span> <span class="val fail">${escHtml(r.chosen)}</span> <span>| Đúng:</span> <span class="val ok">${escHtml(r.correct)}</span>`;
+    list.innerHTML += `<div class="review-item ${cls}">
+      <div class="ri-head"><span class="material-icons-round icon">${icon}</span><span>Câu ${i+1}: ${escHtml(qShort)}</span></div>
+      <div class="ri-detail">${detail}</div></div>`;
+  });
+}
+
+// ── HELPERS ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function goHome()  { showScreen('welcome'); }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} }
+function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+// ── EVENTS ──
+document.getElementById('btnStart').addEventListener('click', startQuiz);
+document.getElementById('btnNext').addEventListener('click', nextQuestion);
+document.getElementById('btnHome').addEventListener('click', goHome);
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('quiz').classList.contains('active')) return;
+  if (e.key === 'Enter' && state.answered) { nextQuestion(); return; }
+  const num = parseInt(e.key);
+  if (num >= 1 && num <= 4 && !state.answered) {
+    const btns = document.querySelectorAll('#optionsContainer .opt-btn');
+    if (btns[num-1]) btns[num-1].click();
+  }
+});
+
+init();
+</script>
+</body>
+</html>
