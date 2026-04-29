@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trắc Nghiệm Nhập Môn Mạng Máy Tính</title>
-<meta name="description" content="Ứng dụng trắc nghiệm ôn thi môn Nhập Môn Mạng Máy Tính - 657 câu, 12 bộ đề">
+<title>Ôn Thi Trắc Nghiệm Đại Học</title>
+<meta name="description" content="Ứng dụng trắc nghiệm ôn thi đại học - Mạng Máy Tính & Lịch Sử Đảng">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <style>
@@ -32,7 +32,7 @@ body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%
 #welcome{gap:20px;text-align:center}
 .logo-icon{font-size:64px;color:var(--primary);filter:drop-shadow(0 0 24px rgba(59,130,246,0.4));animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;line-height:1.2}
 .subtitle{color:var(--labelA);font-size:.9rem}
 .config-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:24px;width:100%;max-width:500px;
   backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
@@ -127,14 +127,42 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
   .config-card,.quiz-card,.score-card{padding:18px}
   .score-card .score-num{font-size:2.2rem}
 }
+/* Subject Picker */
+#subjectPicker{gap:24px;text-align:center}
+.subject-grid{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:700px}
+.subject-card{background:var(--card);border:1.5px solid rgba(255,255,255,0.06);border-radius:18px;padding:32px 28px;width:300px;
+  cursor:pointer;transition:.3s;text-align:center;backdrop-filter:blur(12px);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.subject-card:hover{transform:translateY(-4px);border-color:var(--primary);box-shadow:0 12px 40px rgba(59,130,246,0.2)}
+.subject-card .sc-icon{font-size:48px;margin-bottom:12px}
+.subject-card .sc-title{font-size:1.05rem;font-weight:700;margin-bottom:6px}
+.subject-card .sc-count{font-size:.82rem;color:var(--grey)}
 </style>
 </head>
 <body>
 
+<!-- SUBJECT PICKER -->
+<div id="subjectPicker" class="screen active">
+  <span class="material-icons-round logo-icon">school</span>
+  <h1>ÔN THI TRẮC NGHIỆM</h1>
+  <p class="subtitle">Chọn môn học để bắt đầu</p>
+  <div class="subject-grid" id="subjectGrid">
+    <div class="subject-card" onclick="pickSubject('mangmaytinh')">
+      <span class="material-icons-round sc-icon" style="color:#60a5fa">wifi</span>
+      <div class="sc-title">Nhập Môn Mạng Máy Tính</div>
+      <div class="sc-count">657 câu · 12 bộ đề</div>
+    </div>
+    <div class="subject-card" onclick="pickSubject('lichsudang')">
+      <span class="material-icons-round sc-icon" style="color:#f472b6">history_edu</span>
+      <div class="sc-title">Lịch Sử Đảng CSVN</div>
+      <div class="sc-count">626 câu trắc nghiệm</div>
+    </div>
+  </div>
+</div>
+
 <!-- WELCOME SCREEN -->
-<div id="welcome" class="screen active">
-  <span class="material-icons-round logo-icon">wifi</span>
-  <h1>NHẬP MÔN MẠNG MÁY TÍNH</h1>
+<div id="welcome" class="screen">
+  <span class="material-icons-round logo-icon" id="welcomeIcon">wifi</span>
+  <h1 id="welcomeTitle">NHẬP MÔN MẠNG MÁY TÍNH</h1>
   <p class="subtitle" id="appSubtitle">Đang tải dữ liệu...</p>
 
   <div class="config-card" id="configCard" style="display:none">
@@ -144,6 +172,10 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 
   <button class="btn-start" id="btnStart" style="display:none" disabled>
     <span class="material-icons-round">play_arrow</span> BẮT ĐẦU THI
+  </button>
+
+  <button class="btn-outline" id="btnBack" style="display:none;margin-top:8px" onclick="goSubjectPicker()">
+    <span class="material-icons-round" style="font-size:18px">arrow_back</span> Chọn môn khác
   </button>
 
   <div class="loader" id="loader">
@@ -184,23 +216,49 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 // ── DATA & STATE ──
 let DATA = null;
 const BADGE_COLORS = ['#60a5fa','#4ade80','#fb923c','#c084fc','#22d3ee','#fbbf24'];
+const SUBJECTS = {
+  mangmaytinh: { file:'./data/mangmaytinh.json', title:'NHẬP MÔN MẠNG MÁY TÍNH', icon:'wifi' },
+  lichsudang:  { file:'./data/lichsudang.json',  title:'LỊCH SỬ ĐẢNG CSVN', icon:'history_edu' }
+};
+let currentSubjectKey = null;
 const state = {
   questions: [], current: 0, score: 0,
   selected: null, answered: false, results: [], mode: 'all', total: 0,
   allQ: [], sections: []
 };
 
+// ── SUBJECT PICKER ──
+function pickSubject(key) {
+  currentSubjectKey = key;
+  const subj = SUBJECTS[key];
+  document.getElementById('welcomeIcon').textContent = subj.icon;
+  document.getElementById('welcomeTitle').textContent = subj.title;
+  showScreen('welcome');
+  loadSubjectData(key);
+}
+
+function goSubjectPicker() {
+  // Reset UI
+  document.getElementById('loader').style.display = '';
+  document.getElementById('configCard').style.display = 'none';
+  document.getElementById('btnStart').style.display = 'none';
+  document.getElementById('btnBack').style.display = 'none';
+  document.getElementById('appSubtitle').textContent = 'Đang tải dữ liệu...';
+  showScreen('subjectPicker');
+}
+
 // ── INIT ──
-async function init() {
+async function loadSubjectData(key) {
+  const subj = SUBJECTS[key];
   try {
-    // Load từ file JSON tĩnh — hoạt động trên GitHub Pages
-    const res = await fetch('./data/mangmaytinh.json');
+    const res = await fetch(subj.file);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     DATA = await res.json();
   } catch (e) {
     document.getElementById('loader').style.display = 'none';
+    document.getElementById('btnBack').style.display = '';
     document.getElementById('appSubtitle').innerHTML =
-      `<div class="error-box">⚠️ Không tải được dữ liệu.<br>Lỗi: ${e.message}<br><small>Đảm bảo file <code>data/mangmaytinh.json</code> tồn tại.</small></div>`;
+      `<div class="error-box">⚠️ Không tải được dữ liệu.<br>Lỗi: ${e.message}</div>`;
     return;
   }
 
@@ -214,6 +272,7 @@ async function init() {
   buildRadioGroup();
   document.getElementById('configCard').style.display = '';
   document.getElementById('btnStart').style.display   = '';
+  document.getElementById('btnBack').style.display    = '';
   document.getElementById('btnStart').disabled = state.allQ.length === 0;
 }
 
@@ -381,7 +440,7 @@ document.addEventListener('keydown', e => {
   }
 });
 
-init();
+// Start at subject picker - no auto-init needed
 </script>
 </body>
 </html>
