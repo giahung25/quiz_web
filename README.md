@@ -1,4 +1,4 @@
-# Ôn Thi Trắc Nghiệm Đại Học
+# Ôn Thi Trắc Nghiệm Đại Học Nhập Môn Mạng Máy Tín và Lịch Sử Đảng Cộng Sản Việt Nam
 
 Ứng dụng web ôn thi trắc nghiệm các môn học đại học, bao gồm:
 1. **Nhập Môn Mạng Máy Tính** (657 câu, 12 bộ đề)
