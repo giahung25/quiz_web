@@ -56,6 +56,9 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 .btn-theory{background:rgba(34, 197, 94, 0.2);color:var(--green);border:1px solid var(--green);padding:14px 32px;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;
   display:flex;align-items:center;gap:8px;transition:.3s;}
 .btn-theory:hover{background:var(--green);color:#fff;transform:translateY(-2px);box-shadow:0 8px 30px rgba(34,197,94,0.4)}
+.btn-pdf{background:rgba(251,146,60,0.2);color:#fb923c;border:1px solid #fb923c;padding:14px 32px;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:8px;transition:.3s;}
+.btn-pdf:hover{background:#fb923c;color:#fff;transform:translateY(-2px);box-shadow:0 8px 30px rgba(251,146,60,0.4)}
 
 /* Quiz */
 #quiz{justify-content:flex-start;padding-top:16px}
@@ -91,6 +94,11 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 /* Theory Screen */
 #theory { justify-content: flex-start; padding-top: 16px; }
 .theory-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; padding: 20px 28px; width: 100%; max-width: 800px; flex: 1; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); overflow: hidden; }
+.theory-tabs { display: flex; gap: 8px; flex-shrink: 0; margin-bottom: 4px; }
+.theory-tab { background: var(--card2); border: 1px solid transparent; color: var(--white); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: 0.25s; display: flex; align-items: center; gap: 6px; }
+.theory-tab:hover { background: rgba(59,130,246,0.1); }
+.theory-tab.active { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.2)); border-color: var(--primary); color: var(--primary); }
+.theory-tab .material-icons-round { font-size: 18px; }
 .chapter-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; flex-shrink: 0; }
 .chapter-list::-webkit-scrollbar { height: 4px; }
 .chapter-list::-webkit-scrollbar-thumb { background: var(--card2); border-radius: 4px; }
@@ -111,6 +119,10 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 .theory-content pre code { background: transparent; padding: 0; color: #e2e8f0; }
 .theory-content blockquote { border-left: 4px solid var(--primary); padding-left: 16px; color: var(--grey); margin-bottom: 12px; font-style: italic; }
 .theory-content strong { color: var(--white); }
+/* PDF Viewer */
+.pdf-viewer-wrap { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.pdf-viewer-wrap iframe { flex: 1; width: 100%; border: none; border-radius: 12px; background: #fff; min-height: 500px; }
+.pdf-viewer-info { text-align: center; color: var(--grey); font-size: 0.85rem; margin-top: 8px; }
 
 /* Result */
 #result{justify-content:flex-start;padding-top:24px;gap:16px}
@@ -184,7 +196,7 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
     <div class="subject-card" onclick="pickSubject('lichsudang')">
       <span class="material-icons-round sc-icon" style="color:#f472b6">history_edu</span>
       <div class="sc-title">Lịch Sử Đảng CSVN</div>
-      <div class="sc-count">Trắc nghiệm</div>
+      <div class="sc-count">Giáo trình · Lý thuyết · Trắc nghiệm</div>
     </div>
   </div>
 </div>
@@ -201,6 +213,9 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
   </div>
 
   <div class="mode-btns" id="modeBtns" style="display:none">
+    <button class="btn-pdf" id="btnPdf" style="display:none" onclick="startTheory('giaotrinh')">
+      <span class="material-icons-round">picture_as_pdf</span> ĐỌC GIÁO TRÌNH
+    </button>
     <button class="btn-theory" id="btnTheory" onclick="startTheory()">
       <span class="material-icons-round">menu_book</span> HỌC LÝ THUYẾT
     </button>
@@ -221,17 +236,33 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 
 <!-- THEORY SCREEN -->
 <div id="theory" class="screen">
-  <div class="quiz-header" style="max-width:800px">
+  <div class="quiz-header" id="theoryHeader" style="max-width:800px; width:100%; transition: max-width 0.3s ease;">
     <div style="display:flex;align-items:center;gap:8px">
       <span class="material-icons-round" onclick="goHome()" style="color:var(--grey);cursor:pointer;font-size:22px" title="Về trang chủ">home</span>
-      <span style="color:var(--labelA)">Học Lý Thuyết</span>
+      <span style="color:var(--labelA)" id="theoryHeaderLabel">Học Lý Thuyết</span>
     </div>
   </div>
-  <div class="theory-card">
-    <div class="chapter-list" id="chapterList"></div>
-    <div style="height:1px;background:var(--card2);flex-shrink:0"></div>
-    <div class="theory-content" id="theoryContent">
-      <div style="text-align:center;margin-top:40px;color:var(--grey)">Vui lòng chọn chương để xem nội dung</div>
+  <div class="theory-card" id="theoryCard" style="transition: max-width 0.3s ease;">
+    <div class="theory-tabs" id="theoryTabs" style="display:none">
+      <button class="theory-tab active" id="tabLyThuyet" onclick="switchTheoryTab('lythuyet')">
+        <span class="material-icons-round">menu_book</span> Lý Thuyết
+      </button>
+      <button class="theory-tab" id="tabGiaoTrinh" onclick="switchTheoryTab('giaotrinh')">
+        <span class="material-icons-round">picture_as_pdf</span> Giáo Trình PDF
+      </button>
+    </div>
+    <div id="theoryLyThuyetPanel">
+      <div class="chapter-list" id="chapterList"></div>
+      <div style="height:1px;background:var(--card2);flex-shrink:0"></div>
+      <div class="theory-content" id="theoryContent">
+        <div style="text-align:center;margin-top:40px;color:var(--grey)">Vui lòng chọn chương để xem nội dung</div>
+      </div>
+    </div>
+    <div id="theoryGiaoTrinhPanel" style="display:none;flex:1;display:none;flex-direction:column;min-height:0">
+      <div class="pdf-viewer-wrap">
+        <iframe id="pdfViewerFrame" src=""></iframe>
+        <div class="pdf-viewer-info">📖 Giáo trình Lịch sử Đảng Cộng sản Việt Nam — Bộ GD&ĐT</div>
+      </div>
     </div>
   </div>
 </div>
@@ -271,7 +302,7 @@ let THEORY_DATA = null;
 const BADGE_COLORS = ['#60a5fa','#4ade80','#fb923c','#c084fc','#22d3ee','#fbbf24'];
 const SUBJECTS = {
   mangmaytinh: { file:'./data/mangmaytinh.json', theoryFile: './data/lythuyet_mangmaytinh.json', title:'NHẬP MÔN MẠNG MÁY TÍNH', icon:'wifi' },
-  lichsudang:  { file:'./data/tracnghien_LSD.json', theoryFile: './data/lythuyet_LSD.json', title:'LỊCH SỬ ĐẢNG CSVN', icon:'history_edu' }
+  lichsudang:  { file:'./data/tracnghien_LSD.json', theoryFile: './data/lythuyet_LSD.json', pdfFile: './data/Giao trinh lich su dang cong san viet nam.pdf', title:'LỊCH SỬ ĐẢNG CSVN', icon:'history_edu' }
 };
 let currentSubjectKey = null;
 const state = {
@@ -342,6 +373,14 @@ async function loadSubjectData(key) {
   } else {
       document.getElementById('btnTheory').style.display = 'none';
   }
+  
+  // Show PDF button if subject has a PDF file
+  const subj2 = SUBJECTS[key];
+  if (subj2 && subj2.pdfFile) {
+      document.getElementById('btnPdf').style.display = 'flex';
+  } else {
+      document.getElementById('btnPdf').style.display = 'none';
+  }
 }
 
 function buildRadioGroup() {
@@ -368,9 +407,21 @@ function buildRadioGroup() {
 }
 
 // ── THEORY LOGIC ──
-function startTheory() {
+let currentTheoryTab = 'lythuyet';
+
+function startTheory(tab) {
     if (!THEORY_DATA || !THEORY_DATA.chapters) return;
     showScreen('theory');
+    
+    // Show tabs if PDF is available
+    const subj = SUBJECTS[currentSubjectKey];
+    const tabsEl = document.getElementById('theoryTabs');
+    if (subj && subj.pdfFile) {
+        tabsEl.style.display = 'flex';
+    } else {
+        tabsEl.style.display = 'none';
+    }
+    
     const list = document.getElementById('chapterList');
     list.innerHTML = '';
     
@@ -388,6 +439,49 @@ function startTheory() {
     
     if (THEORY_DATA.chapters.length > 0) {
         renderTheoryContent(THEORY_DATA.chapters[0]);
+    }
+    
+    // Switch to the requested tab
+    switchTheoryTab(tab || 'lythuyet');
+}
+
+function switchTheoryTab(tab) {
+    currentTheoryTab = tab;
+    const lyThuyetPanel = document.getElementById('theoryLyThuyetPanel');
+    const giaoTrinhPanel = document.getElementById('theoryGiaoTrinhPanel');
+    const tabLy = document.getElementById('tabLyThuyet');
+    const tabGT = document.getElementById('tabGiaoTrinh');
+    const headerLabel = document.getElementById('theoryHeaderLabel');
+    const theoryHeader = document.getElementById('theoryHeader');
+    const theoryCard = document.getElementById('theoryCard');
+    
+    if (tab === 'giaotrinh') {
+        lyThuyetPanel.style.display = 'none';
+        giaoTrinhPanel.style.display = 'flex';
+        tabLy.classList.remove('active');
+        tabGT.classList.add('active');
+        headerLabel.textContent = 'Đọc Giáo Trình';
+        
+        // Pull màn hình (Full width)
+        theoryHeader.style.maxWidth = '100%';
+        theoryCard.style.maxWidth = '100%';
+        
+        // Load PDF if not loaded
+        const frame = document.getElementById('pdfViewerFrame');
+        const subj = SUBJECTS[currentSubjectKey];
+        if (subj && subj.pdfFile && !frame.src.includes(subj.pdfFile)) {
+            frame.src = subj.pdfFile;
+        }
+    } else {
+        lyThuyetPanel.style.display = '';
+        giaoTrinhPanel.style.display = 'none';
+        tabLy.classList.add('active');
+        tabGT.classList.remove('active');
+        headerLabel.textContent = 'Học Lý Thuyết';
+        
+        // Revert to normal width
+        theoryHeader.style.maxWidth = '800px';
+        theoryCard.style.maxWidth = '800px';
     }
 }
 
