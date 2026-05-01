@@ -324,8 +324,27 @@ async function loadSubjectData(key) {
     return;
   }
 
-  state.allQ    = DATA.questions  || [];
-  state.sections = DATA.sections  || [];
+  // Filter out junk questions
+  const rawQ = DATA.questions || [];
+  state.allQ = rawQ.filter(q => {
+      const text = (q.question + " " + (q.options || []).join(" ")).toLowerCase();
+      return !text.includes("biến thể") && 
+             !text.includes("nhận định sai lầm") && 
+             !text.includes("nội dung sai lệch");
+  });
+
+  // Recalculate section counts after filtering
+  const secMap = {};
+  state.allQ.forEach(q => {
+      secMap[q.section] = (secMap[q.section] || 0) + 1;
+  });
+  
+  state.sections = (DATA.sections || [])
+      .map(s => {
+          const count = secMap[s.key] || 0;
+          return { ...s, count, label: s.label.replace(/\(\d+ câu\)/, `(${count} câu)`) };
+      })
+      .filter(s => s.count > 0);
 
   document.getElementById('loader').style.display = 'none';
   document.getElementById('appSubtitle').textContent =
