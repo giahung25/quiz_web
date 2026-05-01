@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ôn Thi Trắc Nghiệm Đại Học</title>
-<meta name="description" content="Ứng dụng trắc nghiệm ôn thi đại học - Mạng Máy Tính & Lịch Sử Đảng">
+<title>Ôn Thi Trắc Nghiệm & Lý Thuyết</title>
+<meta name="description" content="Ứng dụng ôn thi đại học - Mạng Máy Tính & Lịch Sử Đảng">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -46,10 +47,15 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 .radio-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--grey);flex-shrink:0;transition:.2s}
 .radio-item.selected .radio-dot{border-color:var(--primary);background:var(--primary);box-shadow:inset 0 0 0 3px var(--card)}
 .radio-label{font-size:.9rem;color:var(--white)}
-.btn-start{background:var(--primary-g);color:#fff;border:none;padding:16px 48px;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;
+
+.mode-btns {display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top: 10px;}
+.btn-start{background:var(--primary-g);color:#fff;border:none;padding:14px 32px;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;
   display:flex;align-items:center;gap:8px;transition:.3s;box-shadow:0 4px 20px rgba(59,130,246,0.3)}
 .btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(59,130,246,0.4)}
 .btn-start:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-theory{background:rgba(34, 197, 94, 0.2);color:var(--green);border:1px solid var(--green);padding:14px 32px;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:8px;transition:.3s;}
+.btn-theory:hover{background:var(--green);color:#fff;transform:translateY(-2px);box-shadow:0 8px 30px rgba(34,197,94,0.4)}
 
 /* Quiz */
 #quiz{justify-content:flex-start;padding-top:16px}
@@ -81,6 +87,30 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 .btn-next{align-self:flex-end;background:var(--primary);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:.9rem;font-weight:600;
   cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
 .btn-next:hover{background:#2563eb;transform:translateY(-1px)}
+
+/* Theory Screen */
+#theory { justify-content: flex-start; padding-top: 16px; }
+.theory-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; padding: 20px 28px; width: 100%; max-width: 800px; flex: 1; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); overflow: hidden; }
+.chapter-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; flex-shrink: 0; }
+.chapter-list::-webkit-scrollbar { height: 4px; }
+.chapter-list::-webkit-scrollbar-thumb { background: var(--card2); border-radius: 4px; }
+.chapter-btn { background: var(--card2); border: 1px solid transparent; color: var(--white); padding: 8px 16px; border-radius: 20px; cursor: pointer; white-space: nowrap; font-size: 0.9rem; transition: 0.2s; }
+.chapter-btn:hover { background: rgba(59,130,246,0.1); }
+.chapter-btn.active { background: rgba(59,130,246,0.15); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+.theory-content { flex: 1; overflow-y: auto; padding-right: 12px; font-size: 0.95rem; line-height: 1.7; color: #e2e8f0; }
+.theory-content::-webkit-scrollbar { width: 6px; }
+.theory-content::-webkit-scrollbar-thumb { background: var(--card2); border-radius: 6px; }
+.theory-content h1 { font-size: 1.5rem; color: var(--white); margin: 24px 0 12px; font-weight: 800; }
+.theory-content h2 { font-size: 1.3rem; color: var(--labelA); margin: 20px 0 10px; font-weight: 700; }
+.theory-content h3 { font-size: 1.1rem; color: var(--white); margin: 16px 0 8px; font-weight: 600; }
+.theory-content p { margin-bottom: 12px; }
+.theory-content ul, .theory-content ol { margin-left: 24px; margin-bottom: 12px; }
+.theory-content li { margin-bottom: 6px; }
+.theory-content code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.9em; color: #f87171; }
+.theory-content pre { background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.05); }
+.theory-content pre code { background: transparent; padding: 0; color: #e2e8f0; }
+.theory-content blockquote { border-left: 4px solid var(--primary); padding-left: 16px; color: var(--grey); margin-bottom: 12px; font-style: italic; }
+.theory-content strong { color: var(--white); }
 
 /* Result */
 #result{justify-content:flex-start;padding-top:24px;gap:16px}
@@ -124,7 +154,7 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 
 @media(max-width:600px){
   h1{font-size:1.5rem}
-  .config-card,.quiz-card,.score-card{padding:18px}
+  .config-card,.quiz-card,.score-card,.theory-card{padding:18px}
   .score-card .score-num{font-size:2.2rem}
 }
 /* Subject Picker */
@@ -143,18 +173,18 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 <!-- SUBJECT PICKER -->
 <div id="subjectPicker" class="screen active">
   <span class="material-icons-round logo-icon">school</span>
-  <h1>ÔN THI TRẮC NGHIỆM</h1>
+  <h1>ÔN THI ĐẠI HỌC</h1>
   <p class="subtitle">Chọn môn học để bắt đầu</p>
   <div class="subject-grid" id="subjectGrid">
     <div class="subject-card" onclick="pickSubject('mangmaytinh')">
       <span class="material-icons-round sc-icon" style="color:#60a5fa">wifi</span>
       <div class="sc-title">Nhập Môn Mạng Máy Tính</div>
-      <div class="sc-count">657 câu · 12 bộ đề</div>
+      <div class="sc-count">Lý thuyết & Trắc nghiệm</div>
     </div>
     <div class="subject-card" onclick="pickSubject('lichsudang')">
       <span class="material-icons-round sc-icon" style="color:#f472b6">history_edu</span>
       <div class="sc-title">Lịch Sử Đảng CSVN</div>
-      <div class="sc-count">626 câu trắc nghiệm</div>
+      <div class="sc-count">Trắc nghiệm</div>
     </div>
   </div>
 </div>
@@ -170,9 +200,14 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
     <div class="radio-group" id="radioGroup"></div>
   </div>
 
-  <button class="btn-start" id="btnStart" style="display:none" disabled>
-    <span class="material-icons-round">play_arrow</span> BẮT ĐẦU THI
-  </button>
+  <div class="mode-btns" id="modeBtns" style="display:none">
+    <button class="btn-theory" id="btnTheory" onclick="startTheory()">
+      <span class="material-icons-round">menu_book</span> HỌC LÝ THUYẾT
+    </button>
+    <button class="btn-start" id="btnStart" disabled onclick="startQuiz()">
+      <span class="material-icons-round">play_arrow</span> THI TRẮC NGHIỆM
+    </button>
+  </div>
 
   <button class="btn-outline" id="btnBack" style="display:none;margin-top:8px" onclick="goSubjectPicker()">
     <span class="material-icons-round" style="font-size:18px">arrow_back</span> Chọn môn khác
@@ -180,7 +215,24 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 
   <div class="loader" id="loader">
     <div class="spinner"></div>
-    <span style="color:var(--grey);font-size:.85rem">Đang tải câu hỏi...</span>
+    <span style="color:var(--grey);font-size:.85rem">Đang tải dữ liệu...</span>
+  </div>
+</div>
+
+<!-- THEORY SCREEN -->
+<div id="theory" class="screen">
+  <div class="quiz-header" style="max-width:800px">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="material-icons-round" onclick="goHome()" style="color:var(--grey);cursor:pointer;font-size:22px" title="Về trang chủ">home</span>
+      <span style="color:var(--labelA)">Học Lý Thuyết</span>
+    </div>
+  </div>
+  <div class="theory-card">
+    <div class="chapter-list" id="chapterList"></div>
+    <div style="height:1px;background:var(--card2);flex-shrink:0"></div>
+    <div class="theory-content" id="theoryContent">
+      <div style="text-align:center;margin-top:40px;color:var(--grey)">Vui lòng chọn chương để xem nội dung</div>
+    </div>
   </div>
 </div>
 
@@ -188,7 +240,7 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 <div id="quiz" class="screen">
   <div class="quiz-header">
     <div style="display:flex;align-items:center;gap:8px">
-      <span class="material-icons-round" id="btnHome" style="color:var(--grey);cursor:pointer;font-size:22px" title="Về trang chủ">home</span>
+      <span class="material-icons-round" style="color:var(--grey);cursor:pointer;font-size:22px" title="Về trang chủ" onclick="goHome()">home</span>
       <span id="progressText" style="color:var(--labelA)"></span>
     </div>
     <span id="scoreText" style="color:var(--green)"></span>
@@ -200,7 +252,7 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
     <div style="height:1px;background:var(--card2)"></div>
     <div class="options" id="optionsContainer"></div>
     <div class="feedback hidden" id="feedback"></div>
-    <button class="btn-next hidden" id="btnNext">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
+    <button class="btn-next hidden" id="btnNext" onclick="nextQuestion()">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
   </div>
 </div>
 
@@ -215,10 +267,11 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 <script>
 // ── DATA & STATE ──
 let DATA = null;
+let THEORY_DATA = null;
 const BADGE_COLORS = ['#60a5fa','#4ade80','#fb923c','#c084fc','#22d3ee','#fbbf24'];
 const SUBJECTS = {
-  mangmaytinh: { file:'./data/mangmaytinh.json', title:'NHẬP MÔN MẠNG MÁY TÍNH', icon:'wifi' },
-  lichsudang:  { file:'./data/lichsudang.json',  title:'LỊCH SỬ ĐẢNG CSVN', icon:'history_edu' }
+  mangmaytinh: { file:'./data/mangmaytinh.json', theoryFile: './data/lythuyet_mangmaytinh.json', title:'NHẬP MÔN MẠNG MÁY TÍNH', icon:'wifi' },
+  lichsudang:  { file:'./data/tracnghien_LSD.json', theoryFile: './data/lythuyet_LSD.json', title:'LỊCH SỬ ĐẢNG CSVN', icon:'history_edu' }
 };
 let currentSubjectKey = null;
 const state = {
@@ -238,10 +291,9 @@ function pickSubject(key) {
 }
 
 function goSubjectPicker() {
-  // Reset UI
   document.getElementById('loader').style.display = '';
   document.getElementById('configCard').style.display = 'none';
-  document.getElementById('btnStart').style.display = 'none';
+  document.getElementById('modeBtns').style.display = 'none';
   document.getElementById('btnBack').style.display = 'none';
   document.getElementById('appSubtitle').textContent = 'Đang tải dữ liệu...';
   showScreen('subjectPicker');
@@ -254,6 +306,16 @@ async function loadSubjectData(key) {
     const res = await fetch(subj.file + '?v=' + new Date().getTime());
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     DATA = await res.json();
+    
+    if (subj.theoryFile) {
+        try {
+            const resT = await fetch(subj.theoryFile + '?v=' + new Date().getTime());
+            if (resT.ok) THEORY_DATA = await resT.json();
+            else THEORY_DATA = null;
+        } catch(e) { THEORY_DATA = null; }
+    } else {
+        THEORY_DATA = null;
+    }
   } catch (e) {
     document.getElementById('loader').style.display = 'none';
     document.getElementById('btnBack').style.display = '';
@@ -271,9 +333,15 @@ async function loadSubjectData(key) {
 
   buildRadioGroup();
   document.getElementById('configCard').style.display = '';
-  document.getElementById('btnStart').style.display   = '';
+  document.getElementById('modeBtns').style.display = '';
   document.getElementById('btnBack').style.display    = '';
   document.getElementById('btnStart').disabled = state.allQ.length === 0;
+  
+  if (THEORY_DATA && THEORY_DATA.chapters && THEORY_DATA.chapters.length > 0) {
+      document.getElementById('btnTheory').style.display = 'flex';
+  } else {
+      document.getElementById('btnTheory').style.display = 'none';
+  }
 }
 
 function buildRadioGroup() {
@@ -297,6 +365,40 @@ function buildRadioGroup() {
     });
     rg.appendChild(div);
   });
+}
+
+// ── THEORY LOGIC ──
+function startTheory() {
+    if (!THEORY_DATA || !THEORY_DATA.chapters) return;
+    showScreen('theory');
+    const list = document.getElementById('chapterList');
+    list.innerHTML = '';
+    
+    THEORY_DATA.chapters.forEach((ch, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'chapter-btn' + (i === 0 ? ' active' : '');
+        btn.textContent = ch.title.split(':')[0] || `Chương ${i+1}`;
+        btn.onclick = () => {
+            document.querySelectorAll('.chapter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderTheoryContent(ch);
+        };
+        list.appendChild(btn);
+    });
+    
+    if (THEORY_DATA.chapters.length > 0) {
+        renderTheoryContent(THEORY_DATA.chapters[0]);
+    }
+}
+
+function renderTheoryContent(chapter) {
+    const container = document.getElementById('theoryContent');
+    if (typeof marked !== 'undefined') {
+        container.innerHTML = marked.parse(chapter.content);
+    } else {
+        container.innerHTML = `<pre>${escHtml(chapter.content)}</pre>`;
+    }
+    container.scrollTop = 0;
 }
 
 // ── QUIZ LOGIC ──
@@ -336,7 +438,7 @@ function renderQuestion() {
     const btn = document.createElement('div');
     btn.className = 'opt-btn';
     btn.innerHTML = `<span class="material-icons-round icon">radio_button_unchecked</span><span>${escHtml(opt)}</span>`;
-    btn.addEventListener('click', () => selectOption(opt, opts, q.answer));
+    btn.addEventListener('click', () => selectOption(opt, opts, q.answer, q.explanation));
     container.appendChild(btn);
   });
 
@@ -344,7 +446,7 @@ function renderQuestion() {
   document.getElementById('btnNext').classList.add('hidden');
 }
 
-function selectOption(chosen, opts, correct) {
+function selectOption(chosen, opts, correct, explanation) {
   if (state.answered) return;
   state.answered = true; state.selected = chosen;
   const ok = chosen === correct;
@@ -364,13 +466,23 @@ function selectOption(chosen, opts, correct) {
 
   const fb = document.getElementById('feedback');
   fb.classList.remove('hidden','ok','fail');
+  let fbHtml = '';
   if (ok) {
     fb.classList.add('ok');
-    fb.innerHTML = `<span class="material-icons-round icon">check_circle</span> Chính xác!`;
+    fbHtml = `<span class="material-icons-round icon">check_circle</span> Chính xác!`;
   } else {
     fb.classList.add('fail');
-    fb.innerHTML = `<span class="material-icons-round icon">cancel</span> Sai! Đáp án đúng: <span class="correct-ans">${escHtml(correct)}</span>`;
+    fbHtml = `<span class="material-icons-round icon">cancel</span> Sai! Đáp án đúng: <span class="correct-ans">${escHtml(correct)}</span>`;
   }
+  
+  if (explanation) {
+      fbHtml += `<div style="font-size:0.85em; color:var(--grey); margin-top:6px; width:100%; font-weight:normal;"><i>Giải thích: ${escHtml(explanation)}</i></div>`;
+      fb.style.flexWrap = 'wrap';
+  } else {
+      fb.style.flexWrap = 'nowrap';
+  }
+  
+  fb.innerHTML = fbHtml;
   document.getElementById('btnNext').classList.remove('hidden');
 }
 
@@ -409,7 +521,7 @@ function showResult() {
     const qShort = r.question.length > 90 ? r.question.slice(0,90)+'...' : r.question;
     const detail = r.ok
       ? `<span>Bạn chọn:</span> <span class="val ok">${escHtml(r.chosen)}</span>`
-      : `<span>Bạn chọn:</span> <span class="val fail">${escHtml(r.chosen)}</span> <span>| Đúng:</span> <span class="val ok">${escHtml(r.correct)}</span>`;
+      : `<span>Bạn chọn:</span> <span class="val fail">${escHtml(r.chosen)}</span> <span style="color:var(--card2)">|</span> <span>Đúng:</span> <span class="val ok">${escHtml(r.correct)}</span>`;
     list.innerHTML += `<div class="review-item ${cls}">
       <div class="ri-head"><span class="material-icons-round icon">${icon}</span><span>Câu ${i+1}: ${escHtml(qShort)}</span></div>
       <div class="ri-detail">${detail}</div></div>`;
@@ -426,10 +538,6 @@ function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.rando
 function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 
 // ── EVENTS ──
-document.getElementById('btnStart').addEventListener('click', startQuiz);
-document.getElementById('btnNext').addEventListener('click', nextQuestion);
-document.getElementById('btnHome').addEventListener('click', goHome);
-
 document.addEventListener('keydown', e => {
   if (!document.getElementById('quiz').classList.contains('active')) return;
   if (e.key === 'Enter' && state.answered) { nextQuestion(); return; }
@@ -440,7 +548,6 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// Start at subject picker - no auto-init needed
 </script>
 </body>
 </html>
