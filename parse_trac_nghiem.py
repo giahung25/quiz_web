@@ -69,6 +69,17 @@ def parse_trac_nghiem_files(json_file):
                 elif line.startswith('*Giải thích:'):
                     explanation = line.replace('*Giải thích:', '').replace('*', '').strip()
             
+            # Lọc các câu hỏi rác
+            is_junk = False
+            for text in [question_text] + options:
+                lower_text = text.lower()
+                if "biến thể" in lower_text or "nhận định sai lầm" in lower_text or "nội dung sai lệch" in lower_text:
+                    is_junk = True
+                    break
+            
+            if is_junk:
+                continue
+
             if question_text and options and answer:
                 q_obj = {
                     "question": question_text,
