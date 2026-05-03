@@ -684,7 +684,7 @@
         "C. 255.255.255.255",
         "D. 192.168.0.255"
       ],
-      "answer": "A. 192.168.2.256",
+      "answer": "D. 192.168.0.255",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
@@ -1877,10 +1877,10 @@
       "options": [
         "A. Data",
         "B. Đoạn (Segment)",
-        "C. C . Gói tin (Packet)",
+        "C. Gói tin (Packet)",
         "D. Khung (Frame)"
       ],
-      "answer": "C. C . Gói tin (Packet)",
+      "answer": "C. Gói tin (Packet)",
       "section": "MMT-Cau hoi KT",
       "sectionLabel": "Câu hỏi kiểm tra"
     },
@@ -2197,10 +2197,10 @@
     {
       "question": "Đổi tên Workgroup được không ? được (True)/không (False)",
       "options": [
-        "A. A .True",
+        "A. True",
         "B. False"
       ],
-      "answer": "A. A .True",
+      "answer": "A. True",
       "section": "MMT-Cau hoi KT",
       "sectionLabel": "Câu hỏi kiểm tra"
     },
@@ -2272,7 +2272,7 @@
         "C. 255.255.255.255",
         "D. 192.168.0.255"
       ],
-      "answer": "A. 192.168.2.256",
+      "answer": "D. 192.168.0.255",
       "section": "MMT-Cau hoi KT",
       "sectionLabel": "Câu hỏi kiểm tra"
     },
