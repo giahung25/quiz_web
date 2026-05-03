@@ -114,7 +114,8 @@
       "options": [
         "A. Lưu lượng TCP",
         "B. Lưu lượng truy cập HTTP",
-        "C. Lưu lượng UDP"
+        "C. Lưu lượng UDP",
+        "D. Các gói có lỗi"
       ],
       "answer": "A. Lưu lượng TCP",
       "section": "CAU HOI MMT",
@@ -898,7 +899,8 @@
       "options": [
         "A. 127.255.255.255",
         "B. 127.0.0.255",
-        "C. 127.0.255.255"
+        "C. 127.0.255.255",
+        "D. 127.0.0.1"
       ],
       "answer": "A. 127.255.255.255",
       "section": "CAU HOI MMT",
