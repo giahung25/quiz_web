@@ -1,11 +1,11 @@
 {
   "subject": "Nhập Môn Mạng Máy Tính",
-  "totalQ": 1338,
+  "totalQ": 1334,
   "sections": [
     {
       "key": "CAU HOI MMT",
       "label": "Câu hỏi tổng hợp (72 câu)",
-      "count": 72
+      "count": 68
     },
     {
       "key": "MMT-Cau hoi KT",
@@ -482,7 +482,7 @@
         "C. 192.168.1.15",
         "D. 192.168.1.96"
       ],
-      "answer": "D. 192.168.1.96",
+      "answer": "B. 192.168.1.31",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
@@ -543,16 +543,6 @@
         "D. IBS"
       ],
       "answer": "B. BSS",
-      "section": "CAU HOI MMT",
-      "sectionLabel": "Câu hỏi tổng hợp"
-    },
-    {
-      "question": "Câu 28: Phần mềm Internet Explorer hoạt động ở tầng mấy trong mô hình OSI?",
-      "options": [
-        "5\t\t\t\tC. 6",
-        "4\t\t\t\tD. 7"
-      ],
-      "answer": "4\t\t\t\tD. 7",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
@@ -773,16 +763,6 @@
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
-      "question": "Câu 57: Nếu lấy 1 địa chỉ lớp B để chia mạng con với SubnetMask là 255.255.240.0 thì có bao nhiêu đường mạng con có thể sử dụng được?",
-      "options": [
-        "30\t\tC. 2",
-        "4\t\t\tD. 16"
-      ],
-      "answer": "4\t\t\tD. 16",
-      "section": "CAU HOI MMT",
-      "sectionLabel": "Câu hỏi tổng hợp"
-    },
-    {
       "question": "Câu 58: Để xem địa chỉ MAC của máy tính hiện tại ta dùng lệnh gì?",
       "options": [
         "A. Hostname",
@@ -902,17 +882,6 @@
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
-      "question": "Câu 80: Thiết bị có khả nảng phát Wi - Fi, qua một hệ thống mạng cục bộ không dây (WLAN) có một bộ định tuyến kết nối với nhà cung cấp dịch vụ Internet.",
-      "options": [
-        "A. DSL",
-        "B. ADO",
-        "C. AP\t\t\tD. ADSL"
-      ],
-      "answer": "C. AP\t\t\tD. ADSL",
-      "section": "CAU HOI MMT",
-      "sectionLabel": "Câu hỏi tổng hợp"
-    },
-    {
       "question": "Câu 81: Địa chỉ IP có 3 bit đầu của byte thứ nhất là 110. Hỏi IP này thuộc lớp nào?",
       "options": [
         "A. Lớp D",
@@ -921,16 +890,6 @@
         "D. Lớp A"
       ],
       "answer": "B. Lớp C",
-      "section": "CAU HOI MMT",
-      "sectionLabel": "Câu hỏi tổng hợp"
-    },
-    {
-      "question": "Câu 82: Có bao nhiêu vùng va chạm (collision domains) trong mạng gồm 88 máy tình, 10 Hub và 2 REPEATER?",
-      "options": [
-        "12\t\t\tC. 10",
-        "1\t\t\t\tD. 100"
-      ],
-      "answer": "12\t\t\tC. 10",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
