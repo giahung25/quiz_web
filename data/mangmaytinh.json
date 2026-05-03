@@ -1,6 +1,6 @@
 {
   "subject": "Nhập Môn Mạng Máy Tính",
-  "totalQ": 1345,
+  "totalQ": 1338,
   "sections": [
     {
       "key": "CAU HOI MMT",
@@ -10,7 +10,7 @@
     {
       "key": "MMT-Cau hoi KT",
       "label": "Câu hỏi kiểm tra (129 câu)",
-      "count": 129
+      "count": 126
     },
     {
       "key": "MMT-Cau hoi them",
@@ -60,7 +60,7 @@
     {
       "key": "Thực hành",
       "label": "Thực hành (18 câu)",
-      "count": 18
+      "count": 14
     },
     {
       "key": "Chương 1: Trắc nghiệm",
@@ -112,12 +112,11 @@
     {
       "question": "Câu 2: Màu tím nhạt trong bảng màu mặc định được cung cấp cho loại gói chính nào ?",
       "options": [
-        "Lưu lượng TCP",
-        "C. Lưu lượng truy cập HTTP",
-        "Lưu lượng UDP",
-        "D. Lưu lượng truy cập HTTP"
+        "A. Lưu lượng TCP",
+        "B. Lưu lượng truy cập HTTP",
+        "C. Lưu lượng UDP"
       ],
-      "answer": "Lưu lượng TCP",
+      "answer": "A. Lưu lượng TCP",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
@@ -144,21 +143,21 @@
     {
       "question": "Câu 10: Phần mềm nào sau đây dùng để bắt và phân tích gói tin:",
       "options": [
-        "Wire Shark",
-        "C. Package Include",
-        "Catch Packet",
+        "A. Wire Shark",
+        "B. Package Include",
+        "C. Catch Packet",
         "D. Partition Magic"
       ],
-      "answer": "Wire Shark",
+      "answer": "A. Wire Shark",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 12: Tập tin được thiết kế bằng Packet Tracer có phần mở rộng là gì?",
       "options": [
-        "pktc",
-        "C. pct",
-        "ptc",
+        "A. pktc",
+        "B. pct",
+        "C. ptc",
         "D. pkt"
       ],
       "answer": "D. pkt",
@@ -168,24 +167,24 @@
     {
       "question": "Câu 16: Phần mềm Wireshark được sử dụng trên nền tảng hệ điều hành nào ?",
       "options": [
-        "Tất cả đáp án",
-        "C. Windows",
-        "Linux",
+        "A. Tất cả đáp án",
+        "B. Windows",
+        "C. Linux",
         "D. MacOS"
       ],
-      "answer": "Tất cả đáp án",
+      "answer": "A. Tất cả đáp án",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 17: Lệnh nào dùng để xác định đường truyền khi gõ lệnh trong cửa số cmd của hệ điều hành Windows?",
       "options": [
-        "Router",
-        "C. ipconfig Incorrect",
-        "Tracert",
+        "A. Router",
+        "B. ipconfig Incorrect",
+        "C. Tracert",
         "D. nslookup"
       ],
-      "answer": "Tracert",
+      "answer": "C. Tracert",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
@@ -202,105 +201,105 @@
     {
       "question": "Câu 21: Lớp C được phép mượn tối đa bao nhiêu bit cho Subnet:",
       "options": [
-        "6",
-        "C. 2",
-        "8",
+        "A. 6",
+        "B. 2",
+        "C. 8",
         "D. 4"
       ],
-      "answer": "6",
+      "answer": "A. 6",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 25: Địa chỉ Subnet của một IP nằm từ bit thứ 17 tới bit thư 23. Vậy địa chỉ IP của nó thuộc lớp nào:",
       "options": [
-        "Lớp C",
-        "C. Lớp B",
-        "Lớp D",
+        "A. Lớp C",
+        "B. Lớp B",
+        "C. Lớp D",
         "D. Lớp A"
       ],
-      "answer": "C. Lớp B",
+      "answer": "B. Lớp B",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 31: Địa chỉ IP có dạng 192.168.1.1 thuộc lớp nào?",
       "options": [
-        "Lớp A",
-        "C. Lớp C",
-        "Lớp D",
+        "A. Lớp A",
+        "B. Lớp C",
+        "C. Lớp D",
         "D. Lớp B"
       ],
-      "answer": "C. Lớp C",
+      "answer": "B. Lớp C",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 33: Các giao thức được sử dụng ở tầng Internet trong mô hình TCP/IP là:",
       "options": [
-        "IP, ARP, ICMP, RARP",
-        "C. ARP, UDP, FTP",
-        "TCP, ARP, SMTP",
+        "A. IP, ARP, ICMP, RARP",
+        "B. ARP, UDP, FTP",
+        "C. TCP, ARP, SMTP",
         "D. TCP, IP, UDP"
       ],
-      "answer": "IP, ARP, ICMP, RARP",
+      "answer": "A. IP, ARP, ICMP, RARP",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 34: Bộ giao thức liên mạng được sử dụng phổ biến trên mạng Internet có tên là gì?",
       "options": [
-        "IPX/SPX",
-        "C. Netbeui",
-        "TCP/IP",
+        "A. IPX/SPX",
+        "B. Netbeui",
+        "C. TCP/IP",
         "D. Tất cả ý trên"
       ],
-      "answer": "TCP/IP",
+      "answer": "C. TCP/IP",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 39: Kiến trúc mạng kết hợp nào sau đây đúng?",
       "options": [
-        "Star - Bus",
-        "C. Ring - Star",
-        "Bus - Start",
+        "A. Star - Bus",
+        "B. Ring - Star",
+        "C. Bus - Start",
         "D. Ring - Bus"
       ],
-      "answer": "Star - Bus",
+      "answer": "A. Star - Bus",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 41: Màu tím nhạt trong bảng màu mặc định được cung cấp cho loại gói chính nào?",
       "options": [
-        "Lưu lượng UDP",
-        "C. Lưu lượng truy cập HTTP",
-        "Lưu lượng TCP",
+        "A. Lưu lượng UDP",
+        "B. Lưu lượng truy cập HTTP",
+        "C. Lưu lượng TCP",
         "D. Các gói có lỗi"
       ],
-      "answer": "Lưu lượng TCP",
+      "answer": "C. Lưu lượng TCP",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 43: Một mạng con lớp C cần chứa tối thiểu 15 host, sử dụng Subnet Mask nào sau đây:",
       "options": [
-        "255.255.255.248",
-        "C. 255.255.255.224",
-        "255.0.0.255",
+        "A. 255.255.255.248",
+        "B. 255.255.255.224",
+        "C. 255.0.0.255",
         "D. 255.255.255.240"
       ],
-      "answer": "C. 255.255.255.224",
+      "answer": "B. 255.255.255.224",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 44: Giao thức nào trong các giao thức sau dùng trong mô hình mạng WAN:",
       "options": [
-        "Tất cả các đáp án trên",
-        "C. DLC",
-        "NETBEUI",
+        "A. Tất cả các đáp án trên",
+        "B. DLC",
+        "C. NETBEUI",
         "D. TCP/IP"
       ],
       "answer": "D. TCP/IP",
@@ -310,9 +309,9 @@
     {
       "question": "Câu 45: Tìm số lượng Broadcast domain trong mô hình mạng LAN sau đây gồm 1 Router, 1 Switch, 1 Hub và 6 PC?",
       "options": [
-        "5 Broadcast domain",
-        "C. 4 Broadcast domain",
-        "8 Broadcast domain",
+        "A. 5 Broadcast domain",
+        "B. 4 Broadcast domain",
+        "C. 8 Broadcast domain",
         "D. 2 Broadcast domain"
       ],
       "answer": "D. 2 Broadcast domain",
@@ -322,93 +321,93 @@
     {
       "question": "Câu 48: Cho địa chỉ IP 192.168.25.91/26. Subnet Mask sẽ là:",
       "options": [
-        "255.255.255.128",
-        "C. 255.255.255.192",
-        "255.224.255.240",
+        "A. 255.255.255.128",
+        "B. 255.255.255.192",
+        "C. 255.224.255.240",
         "D. 255.255.255.224"
       ],
-      "answer": "C. 255.255.255.192",
+      "answer": "B. 255.255.255.192",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 49: Sử dụng địa chỉ lớp B để chia Subnet mask là 255.255.248.0 thì có bao nhiêu Subnet có thể sử dụng được?",
       "options": [
-        "2",
-        "C. 30",
-        "6",
+        "A. 2",
+        "B. 30",
+        "C. 6",
         "D. 14"
       ],
-      "answer": "C. 30",
+      "answer": "B. 30",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 50: Có thể phát động địa chỉ IP, ta có thể sử dụng dịch vụ nào?",
       "options": [
-        "FTP",
-        "C. DHCP",
-        "DNS",
+        "A. FTP",
+        "B. DHCP",
+        "C. DNS",
         "D. HTTP"
       ],
-      "answer": "C. DHCP",
+      "answer": "B. DHCP",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 53: Khoảng cách tối đa cho cáp UTP là:",
       "options": [
-        "300",
-        "C. 100",
-        "150",
+        "A. 300",
+        "B. 100",
+        "C. 150",
         "D. 200"
       ],
-      "answer": "C. 100",
+      "answer": "B. 100",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 54: Có thể truy cập các dịch vụ của một máy tính chạy Windows trong mạng TCP/IP bằng cách sử dụng:",
       "options": [
-        "Tên DNS",
-        "C. Địa chỉ IP",
-        "Tên máy",
+        "A. Tên DNS",
+        "B. Địa chỉ IP",
+        "C. Tên máy",
         "D. Địa chỉ MAC"
       ],
-      "answer": "Tên DNS",
+      "answer": "A. Tên DNS",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 56: Công nghệ mạng LAN nào được sử dụng rộng rãi nhất trong cơ quan/doanh nghiệp?",
       "options": [
-        "ArcNet",
-        "C. Token Ring",
-        "Ethernet",
+        "A. ArcNet",
+        "B. Token Ring",
+        "C. Ethernet",
         "D. FDDI"
       ],
-      "answer": "Ethernet",
+      "answer": "C. Ethernet",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 57: Dịch vụ nào cho phép tham chiếu host bằng tên thhay cho việc dùng địa chỉ IP khi duyệt internet?",
       "options": [
-        "HTTP",
-        "C. FTP",
-        "DNS",
+        "A. HTTP",
+        "B. FTP",
+        "C. DNS",
         "D. POTS"
       ],
-      "answer": "DNS",
+      "answer": "C. DNS",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 59: Cáp xoắn đôi có khoảng cách truyền tối đa là bao nhiêu mét?",
       "options": [
-        "300",
-        "C. 200",
-        "500",
+        "A. 300",
+        "B. 200",
+        "C. 500",
         "D. 100"
       ],
       "answer": "D. 100",
@@ -418,9 +417,9 @@
     {
       "question": "Câu 2: Địa chỉ SubnetMask của đường mạng 152.168.0.0 sau khi đã chọn 8 bít để chia mạng con là gì?",
       "options": [
-        "255.255.0.0",
-        "C. Tất cả đều sai",
-        "255.0.0.0",
+        "A. 255.255.0.0",
+        "B. Tất cả đều sai",
+        "C. 255.0.0.0",
         "D. 255.255.255.0"
       ],
       "answer": "D. 255.255.255.0",
@@ -430,57 +429,57 @@
     {
       "question": "Câu 3: Thiết bị kết nối trung tâm trong mạng hình sao là?",
       "options": [
-        "Card mạng (NIC)",
-        "C. Hub hoặc Switch",
-        "Repeater",
+        "A. Card mạng (NIC)",
+        "B. Hub hoặc Switch",
+        "C. Repeater",
         "D. Router"
       ],
-      "answer": "C. Hub hoặc Switch",
+      "answer": "B. Hub hoặc Switch",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 5: Tầng thấp nhất của mô hình OSI là gì?",
       "options": [
-        "Data link",
-        "C. Application",
-        "Physical",
+        "A. Data link",
+        "B. Application",
+        "C. Physical",
         "D. Persentation"
       ],
-      "answer": "Physical",
+      "answer": "C. Physical",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 7: Đầu nối RJ45 có thể dùng để bấm vào loại cáp nào sau đây?",
       "options": [
-        "UTP",
-        "C. Tất cả đều đúng",
-        "ScTP",
+        "A. UTP",
+        "B. Tất cả đều đúng",
+        "C. ScTP",
         "D. AMP"
       ],
-      "answer": "UTP",
+      "answer": "A. UTP",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 9: Trang thiết bị mạng nào làm giảm bớt vùng va chạm (collisions)?",
       "options": [
-        "NIC",
-        "C. Switch",
-        "Hub",
+        "A. NIC",
+        "B. Switch",
+        "C. Hub",
         "D. Transceiver"
       ],
-      "answer": "C. Switch",
+      "answer": "B. Switch",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 10: Trong mạng ETHENET dùng giao thức TCP/IP, SubnetMask là 255.255.255.224. Hãy xác định địa chỉ quảng bá của mạng nếu biết rằng một máy tính trong mạng có địa chỉ là 192.168.1.1.",
       "options": [
-        "192.168.1.255",
-        "C. 192.168.1.31",
-        "192.168.1.15",
+        "A. 192.168.1.255",
+        "B. 192.168.1.31",
+        "C. 192.168.1.15",
         "D. 192.168.1.96"
       ],
       "answer": "D. 192.168.1.96",
@@ -490,33 +489,33 @@
     {
       "question": "Câu 15: Tên miền cho các cơ quan chính phủ là gì?",
       "options": [
-        "Gov",
-        "C. Edu",
-        "Net",
+        "A. Gov",
+        "B. Edu",
+        "C. Net",
         "D. Com"
       ],
-      "answer": "Gov",
+      "answer": "A. Gov",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 20: Cáp xoắn đôi có khoản cách truyền tối đa là bao nhiêu mét?",
       "options": [
-        "200",
-        "C. 100",
-        "300",
+        "A. 200",
+        "B. 100",
+        "C. 300",
         "D. 500"
       ],
-      "answer": "C. 100",
+      "answer": "B. 100",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 22: Tên miền cho các cơ quan giáo dục là gì?",
       "options": [
-        "Gov",
-        "C. Net",
-        "Com",
+        "A. Gov",
+        "B. Net",
+        "C. Com",
         "D. Edu"
       ],
       "answer": "D. Edu",
@@ -526,24 +525,24 @@
     {
       "question": "Câu 26: Dãy địa chỉ IP thuộc lớp C là gì?",
       "options": [
-        "128.x.x.x đến 191.x.x.x",
-        "C. 224.x.x.x đến 239.x.x.x",
-        "192.x.x.x đến 223.x.x.x",
+        "A. 128.x.x.x đến 191.x.x.x",
+        "B. 224.x.x.x đến 239.x.x.x",
+        "C. 192.x.x.x đến 223.x.x.x",
         "D. 0.x.x.x đến 126.x.x.x"
       ],
-      "answer": "192.x.x.x đến 223.x.x.x",
+      "answer": "C. 192.x.x.x đến 223.x.x.x",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 27: Lựa chọn nào là mô hình mạng WLAN?",
       "options": [
-        "LAN",
-        "C. BSS",
-        "MAN",
+        "A. LAN",
+        "B. BSS",
+        "C. MAN",
         "D. IBS"
       ],
-      "answer": "C. BSS",
+      "answer": "B. BSS",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
@@ -560,21 +559,21 @@
     {
       "question": "Câu 31: Với cách mô tả địa chỉ IP(v4). Hỏi có thể viết tối ta bao nhiêu IP?",
       "options": [
-        "2 mũ 24",
-        "C. (2 mũ 24) - 2",
-        "2 mũ 32",
+        "A. 2 mũ 24",
+        "B. (2 mũ 24) - 2",
+        "C. 2 mũ 32",
         "D. (2 mũ 32) - 2"
       ],
-      "answer": "2 mũ 32",
+      "answer": "C. 2 mũ 32",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 32: Khoảng cách tối đa của cáp mạng STP là bao nhiêu?",
       "options": [
-        "500",
-        "C. 300",
-        "150m",
+        "A. 500",
+        "B. 300",
+        "C. 150m",
         "D. 100m"
       ],
       "answer": "D. 100m",
@@ -584,21 +583,21 @@
     {
       "question": "Câu 33: Công nghệ mạng LAN nào được sử dụng rộng rãi nhất hiện nay?",
       "options": [
-        "FDDI",
-        "C. Ethernet",
-        "Token Ring",
+        "A. FDDI",
+        "B. Ethernet",
+        "C. Token Ring",
         "D. ArcNe"
       ],
-      "answer": "C. Ethernet",
+      "answer": "B. Ethernet",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 35: Nếu bấm cáp theo chuẩn T568A thì sợ dây ở chân số 2 có màu gì?",
       "options": [
-        "Trắng cam",
-        "C. Xanh dương",
-        "Trắng nâu",
+        "A. Trắng cam",
+        "B. Xanh dương",
+        "C. Trắng nâu",
         "D. Xanh lá"
       ],
       "answer": "D. Xanh lá",
@@ -608,21 +607,21 @@
     {
       "question": "Câu 37: Hình sau đây là mô tả của loại cáp nào?",
       "options": [
-        "UTP",
-        "C. AMP",
-        "STP",
+        "A. UTP",
+        "B. AMP",
+        "C. STP",
         "D. ScTP"
       ],
-      "answer": "STP",
+      "answer": "C. STP",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 38: Đầu nối chữ T dùng để nối loại cáp nào sau đây?",
       "options": [
-        "UTP",
-        "C. AMP",
-        "ScTP",
+        "A. UTP",
+        "B. AMP",
+        "C. ScTP",
         "D. Cáp đồng trục"
       ],
       "answer": "D. Cáp đồng trục",
@@ -632,45 +631,45 @@
     {
       "question": "Câu40: Tên miền cho các tổ chức thương mại là gì?",
       "options": [
-        "Mil",
-        "C. Gov",
-        "Com",
+        "A. Mil",
+        "B. Gov",
+        "C. Com",
         "D. Net"
       ],
-      "answer": "Com",
+      "answer": "C. Com",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 41: Mặc định cổng kết nối vào FTP Server là bao nhiêu?",
       "options": [
-        "21",
-        "C. 80",
-        "Tất cả đều sai",
+        "A. 21",
+        "B. 80",
+        "C. Tất cả đều sai",
         "D. 8080"
       ],
-      "answer": "21",
+      "answer": "A. 21",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 43: Gói tin (Packets) được đóng thành Khung (Frames) ở tầng nào của mô hình OSI?",
       "options": [
-        "Data link",
-        "C. Network",
-        "Transport",
+        "A. Data link",
+        "B. Network",
+        "C. Transport",
         "D. Session"
       ],
-      "answer": "Data link",
+      "answer": "A. Data link",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 44: Địa chỉ IP có 2 bit đầu của byte thứ nhất là 10. Hỏi IP này thuộc lớp nào?",
       "options": [
-        "Lớp C",
-        "C. Lớp D",
-        "Lớp A",
+        "A. Lớp C",
+        "B. Lớp D",
+        "C. Lớp A",
         "D. Lớp B"
       ],
       "answer": "D. Lớp B",
@@ -680,96 +679,96 @@
     {
       "question": "Câu 46: Địa chỉ quảng bá của đường mạng có IP là 192.168.0.0 là bao nhiêu?",
       "options": [
-        "192.168.2.256",
-        "C. 192.168.0.0",
-        "255.255.255.255",
+        "A. 192.168.2.256",
+        "B. 192.168.0.0",
+        "C. 255.255.255.255",
         "D. 192.168.0.255"
       ],
-      "answer": "192.168.2.256",
+      "answer": "A. 192.168.2.256",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 48: Địa chỉ IP có 1 bit đầu của byte thứ nhất là 0. Hỏi IP này thuộc lớp nào?",
       "options": [
-        "Lớp B",
-        "C. Lớp A",
-        "Lớp C",
+        "A. Lớp B",
+        "B. Lớp A",
+        "C. Lớp C",
         "D. Lớp D"
       ],
-      "answer": "C. Lớp A",
+      "answer": "B. Lớp A",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 50: Trang thiết bị mạng nào dùng để nối các mạng và kiểm soát được gói tin quảng bá (Broadcast)?",
       "options": [
-        "Router",
-        "C. Switch",
-        "Hub",
+        "A. Router",
+        "B. Switch",
+        "C. Hub",
         "D. Bridge"
       ],
-      "answer": "Router",
+      "answer": "A. Router",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 52: Để hạn chế sự đụng độ của các gói tin trên mạng người ta chia mạng thành các mạng nhỏ hiwn và nối kết chúng lại bằng các tiết bị nào sau đây?",
       "options": [
-        "Switch",
-        "C. Repeaters",
-        "Cạc mạng (NIC)",
+        "A. Switch",
+        "B. Repeaters",
+        "C. Cạc mạng (NIC)",
         "D. Hub"
       ],
-      "answer": "C. Repeaters",
+      "answer": "B. Repeaters",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 53: Thiết bị Router hoạt động ở tầng mấy trong mô hình OSI?",
       "options": [
-        "Tầng 2",
-        "C. Tầng 3",
-        "Tầng 4",
+        "A. Tầng 2",
+        "B. Tầng 3",
+        "C. Tầng 4",
         "D. Tầng 1"
       ],
-      "answer": "C. Tầng 3",
+      "answer": "B. Tầng 3",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 54: Thiết bị nào sau đây được gọi là multi-port bridge?",
       "options": [
-        "Switch",
-        "C. Router",
-        "Repeater",
+        "A. Switch",
+        "B. Router",
+        "C. Repeater",
         "D. Hub"
       ],
-      "answer": "Switch",
+      "answer": "A. Switch",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 55: Trong mô hìng OSI tầng nào làm nhiệm vụ truyền tải các bít trên đường truyền?",
       "options": [
-        "Tầng mạng",
-        "C. Tầng ứng dụng",
-        "Tầng vật lý",
+        "A. Tầng mạng",
+        "B. Tầng ứng dụng",
+        "C. Tầng vật lý",
         "D. Tầng liên kết dữ liệu"
       ],
-      "answer": "Tầng vật lý",
+      "answer": "C. Tầng vật lý",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 56: Giao thức nào dùng để tìm địa chỉ MAC khi biết địa chỉ IP của máy tính?",
       "options": [
-        "DHCP",
-        "C. ARP",
-        "TCP/IP",
+        "A. DHCP",
+        "B. ARP",
+        "C. TCP/IP",
         "D. RARP"
       ],
-      "answer": "C. ARP",
+      "answer": "B. ARP",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
@@ -786,115 +785,115 @@
     {
       "question": "Câu 58: Để xem địa chỉ MAC của máy tính hiện tại ta dùng lệnh gì?",
       "options": [
-        "Hostname",
-        "C. IPconfig/All",
-        "Ip config/all",
+        "A. Hostname",
+        "B. IPconfig/All",
+        "C. Ip config/all",
         "D. Ipconfig"
       ],
-      "answer": "C. IPconfig/All",
+      "answer": "B. IPconfig/All",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 59: Trong các địa chỉ sau, địa chỉ nào là địa chỉ quảng bá của 1 đường mạng thuộc lớp C?",
       "options": [
-        "Tất cả đều sai",
-        "C. 192.168.1.255",
-        "19.255.255.255",
+        "A. Tất cả đều sai",
+        "B. 192.168.1.255",
+        "C. 19.255.255.255",
         "D. 191.168.255.255"
       ],
-      "answer": "C. 192.168.1.255",
+      "answer": "B. 192.168.1.255",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 61: Địa chỉ IP 192.186.1.52 thuộc lớp nào?",
       "options": [
-        "Lớp A",
-        "C. Lớp C",
-        "Lớp D",
+        "A. Lớp A",
+        "B. Lớp C",
+        "C. Lớp D",
         "D. Lớp B"
       ],
-      "answer": "C. Lớp C",
+      "answer": "B. Lớp C",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 63: Tầng nào của mô hình OSI được dùng để xác định đường đi tốt nhất khi dữ liệu truyền qua mạng?",
       "options": [
-        "Presentation",
-        "C. Physical",
-        "Network",
+        "A. Presentation",
+        "B. Physical",
+        "C. Network",
         "D. Transport"
       ],
-      "answer": "Network",
+      "answer": "C. Network",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 64: Nếu bấm cáp theo chuẩn T568A thì sợi cáp màu nào nằm ở chân số 6?",
       "options": [
-        "Cam",
-        "C. Trắng cam",
-        "Trắng xanh dương",
+        "A. Cam",
+        "B. Trắng cam",
+        "C. Trắng xanh dương",
         "D. Trắng nâu"
       ],
-      "answer": "Cam",
+      "answer": "A. Cam",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 65: Khi sử dụng thiết bị kiểm tra cáp mạng, màn hình báo rằng chân số 7 bị hở mạch. Theo chuẩn 100baseT, sợ cáp này có thể kết nối giữa các thiết bị nào sau đây?",
       "options": [
-        "Sợi cáp không dùng được",
-        "C. PC to Switch",
-        "Switch to Switch",
+        "A. Sợi cáp không dùng được",
+        "B. PC to Switch",
+        "C. Switch to Switch",
         "D. PC to Hub"
       ],
-      "answer": "Switch to Switch",
+      "answer": "C. Switch to Switch",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 66: Thiết bị nào sau đây không cần thiết khi thiết kế mạng LAN?",
       "options": [
-        "RJ45",
-        "C. Cáp",
-        "Router",
+        "A. RJ45",
+        "B. Cáp",
+        "C. Router",
         "D. HUB"
       ],
-      "answer": "Router",
+      "answer": "C. Router",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 67: Giá trị SubnetMask của đường ạng có IP 172.16.0.0 sau đã chọn 8 bit ở phần host làm chia mạng con là?",
       "options": [
-        "255.255.255.224",
-        "C. 255.255.255.248",
-        "255.255.255.0",
+        "A. 255.255.255.224",
+        "B. 255.255.255.248",
+        "C. 255.255.255.0",
         "D. 255.255.255.240"
       ],
-      "answer": "255.255.255.0",
+      "answer": "C. 255.255.255.0",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 68: Thiết bị nào sau đây là trung tâm của mạng LAN hình sao (Star)?",
       "options": [
-        "Tất cả đều sai",
-        "C. Hub/Switch",
-        "Repeater",
+        "A. Tất cả đều sai",
+        "B. Hub/Switch",
+        "C. Repeater",
         "D. Router"
       ],
-      "answer": "C. Hub/Switch",
+      "answer": "B. Hub/Switch",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 69: Hình dưới đây mổ tả của sợi cáp UTP đã được bấm vào 2 đầu nối RJ45, thứ tự màu của 2 đầu cáp như sau. Hỏi có thể dùng sợ cáp này để nối giữa 2 thiết bị nào sau đây?",
       "options": [
-        "Hub To PC",
+        "A. Hub To PC",
         "B. Bridge To PC",
         "C. PC to PC"
       ],
@@ -905,23 +904,23 @@
     {
       "question": "Câu 80: Thiết bị có khả nảng phát Wi - Fi, qua một hệ thống mạng cục bộ không dây (WLAN) có một bộ định tuyến kết nối với nhà cung cấp dịch vụ Internet.",
       "options": [
-        "DSL",
-        "C. ADO",
-        "AP\t\t\tD. ADSL"
+        "A. DSL",
+        "B. ADO",
+        "C. AP\t\t\tD. ADSL"
       ],
-      "answer": "AP\t\t\tD. ADSL",
+      "answer": "C. AP\t\t\tD. ADSL",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
     {
       "question": "Câu 81: Địa chỉ IP có 3 bit đầu của byte thứ nhất là 110. Hỏi IP này thuộc lớp nào?",
       "options": [
-        "Lớp D",
-        "C. Lớp C",
-        "Lớp B",
+        "A. Lớp D",
+        "B. Lớp C",
+        "C. Lớp B",
         "D. Lớp A"
       ],
-      "answer": "C. Lớp C",
+      "answer": "B. Lớp C",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
@@ -938,12 +937,11 @@
     {
       "question": "Câu 84: Địa chỉ quảng bá của đường mạng có IP là 127.0.0.0 là bao nhiêu?",
       "options": [
-        "127.255.255.255",
-        "C. 127.0.0.255",
-        "127.0.255.255",
-        "D. 127.0.0.255"
+        "A. 127.255.255.255",
+        "B. 127.0.0.255",
+        "C. 127.0.255.255"
       ],
-      "answer": "127.255.255.255",
+      "answer": "A. 127.255.255.255",
       "section": "CAU HOI MMT",
       "sectionLabel": "Câu hỏi tổng hợp"
     },
@@ -1879,10 +1877,10 @@
       "options": [
         "A. Data",
         "B. Đoạn (Segment)",
-        "C . Gói tin (Packet)",
+        "C. C . Gói tin (Packet)",
         "D. Khung (Frame)"
       ],
-      "answer": "C . Gói tin (Packet)",
+      "answer": "C. C . Gói tin (Packet)",
       "section": "MMT-Cau hoi KT",
       "sectionLabel": "Câu hỏi kiểm tra"
     },
@@ -1987,7 +1985,7 @@
       "options": [
         "A. Phisycal",
         "B. Cả 7 tầng",
-        "Datalink",
+        "C. Datalink",
         "D. Network"
       ],
       "answer": "B. Cả 7 tầng",
@@ -2173,18 +2171,6 @@
       "sectionLabel": "Câu hỏi kiểm tra"
     },
     {
-      "question": "Trang thiết bị mạng nào làm giảm bớt vùng va chạm (collisions)?",
-      "options": [
-        "A. NIC",
-        "B. Switch",
-        "C. Transceiver",
-        "D. Hub"
-      ],
-      "answer": "B. Switch",
-      "section": "MMT-Cau hoi KT",
-      "sectionLabel": "Câu hỏi kiểm tra"
-    },
-    {
       "question": "Khi thực hiện phép AND giữa 2 địa chỉ IP 172.16.20.23 và 255.255.248.0 sẽ cho IP nào sau đây?",
       "options": [
         "A. 172.16.20.0",
@@ -2209,24 +2195,12 @@
       "sectionLabel": "Câu hỏi kiểm tra"
     },
     {
-      "question": "Giao thức mạng nào dưới đây được sử dụng trong mạng cục bộ LAN?",
-      "options": [
-        "A. Tất cả đều đúng",
-        "B. IPX",
-        "C. TCP/IP",
-        "D. NETBIOS"
-      ],
-      "answer": "A. Tất cả đều đúng",
-      "section": "MMT-Cau hoi KT",
-      "sectionLabel": "Câu hỏi kiểm tra"
-    },
-    {
       "question": "Đổi tên Workgroup được không ? được (True)/không (False)",
       "options": [
-        "A .True",
+        "A. A .True",
         "B. False"
       ],
-      "answer": "A .True",
+      "answer": "A. A .True",
       "section": "MMT-Cau hoi KT",
       "sectionLabel": "Câu hỏi kiểm tra"
     },
@@ -2395,18 +2369,6 @@
         "D. Các gói có lỗi"
       ],
       "answer": "D. Các gói có lỗi",
-      "section": "MMT-Cau hoi KT",
-      "sectionLabel": "Câu hỏi kiểm tra"
-    },
-    {
-      "question": "Giao thức nào dùng để tìm địa chỉ MAC khi biết địa chỉ IP của máy tính?",
-      "options": [
-        "A. TCP/IP",
-        "B. DHCP",
-        "C. ARP",
-        "D. RARP"
-      ],
-      "answer": "C. ARP",
       "section": "MMT-Cau hoi KT",
       "sectionLabel": "Câu hỏi kiểm tra"
     },
@@ -2821,12 +2783,12 @@
     {
       "question": "Hai đầu dây cáp được bấm theo chuẩn T586A, gọi cáp được bấm đó là gì?",
       "options": [
-        "Cáp thẳng.",
+        "A. Cáp thẳng.",
         "B. Cáp chéo.",
         "C. Câu A và B đúng.",
         "D. Câu A và B sai."
       ],
-      "answer": "Cáp thẳng.",
+      "answer": "A. Cáp thẳng.",
       "section": "MMT-Cau hoi them",
       "sectionLabel": "Câu hỏi bổ sung"
     },
@@ -7681,18 +7643,6 @@
       "sectionLabel": "Thực hành"
     },
     {
-      "question": "Màu tím nhạt trong bảng màu mặc định của Wireshark được cung cấp cho loại gói chính nào?",
-      "options": [
-        "Lưu lượng truy cập HTTP",
-        "Lưu lượng TCP",
-        "Lưu lượng UDP",
-        "Các gói có lỗi"
-      ],
-      "answer": "Lưu lượng TCP",
-      "section": "Thực hành",
-      "sectionLabel": "Thực hành"
-    },
-    {
       "question": "Trong ứng dụng Wireshark, để xem ý nghĩa của các mã màu ta chọn:",
       "options": [
         "Edit -> Coloring Rules",
@@ -7705,36 +7655,12 @@
       "sectionLabel": "Thực hành"
     },
     {
-      "question": "Wireshark có nhiều tính năng nổi bật như:",
-      "options": [
-        "Lưu dữ liệu gói bị bắt",
-        "Tất cả đáp án",
-        "Xuất một số hoặc tất cả các gói trong một số định dạng capture file",
-        "Hiển thị các gói với thông tin giao thức rất chi tiết"
-      ],
-      "answer": "Tất cả đáp án",
-      "section": "Thực hành",
-      "sectionLabel": "Thực hành"
-    },
-    {
       "question": "Tên máy tính có đổi được không?",
       "options": [
         "Có (True)",
         "Không (False)"
       ],
       "answer": "Có (True)",
-      "section": "Thực hành",
-      "sectionLabel": "Thực hành"
-    },
-    {
-      "question": "Gõ lệnh Ping <địa chỉ IP của máy tính khác> trong cửa sổ cmd dùng để làm gì?",
-      "options": [
-        "Kiểm tra máy tính khác có truy cập được Internet không?",
-        "Kiểm tra máy tính khác có card mạng hay không",
-        "Kiểm tra máy tính khác có hoạt động tốt hay không",
-        "Kiểm tra sự liên thông mạng với máy tính khác?"
-      ],
-      "answer": "Kiểm tra sự liên thông mạng với máy tính khác?",
       "section": "Thực hành",
       "sectionLabel": "Thực hành"
     },
@@ -7853,18 +7779,6 @@
         "Các gói có lỗi"
       ],
       "answer": "Các gói có lỗi",
-      "section": "Thực hành",
-      "sectionLabel": "Thực hành"
-    },
-    {
-      "question": "Trong Packet tracer, muốn đặt địa chỉ IP cho PC để kết nối vào mạng ta chọn tùy chọn nào?",
-      "options": [
-        "Chọn PC → Tab CONFIG → Nhập địa chỉ IP",
-        "Chọn PC → Tab DESKTOP → Command Prompt → Nhập địa chỉ IP",
-        "Chọn PC → Tab DESKTOP → IP Configuration → Nhập địa chỉ IP",
-        "Chọn PC → Tab DESKTOP → Terminal → Nhập địa chỉ IP"
-      ],
-      "answer": "Chọn PC → Tab DESKTOP → IP Configuration → Nhập địa chỉ IP",
       "section": "Thực hành",
       "sectionLabel": "Thực hành"
     },
