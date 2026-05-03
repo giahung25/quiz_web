@@ -361,7 +361,8 @@ async function loadSubjectData(key) {
       const text = (q.question + " " + (q.options || []).join(" ")).toLowerCase();
       return !text.includes("biến thể") && 
              !text.includes("nhận định sai lầm") && 
-             !text.includes("nội dung sai lệch");
+             !text.includes("nội dung sai lệch") &&
+             !text.includes("đáp án sai");
   });
 
   // Recalculate section counts after filtering
@@ -528,9 +529,23 @@ function startQuiz() {
   renderQuestion();
 }
 
+function stripOptionLabel(s) {
+  return s.replace(/^[A-Ea-e]\.\s+/, '').trim();
+}
+
 function renderQuestion() {
   const q = state.questions[state.current];
-  const opts = [...q.options]; shuffle(opts);
+  const shuffled = [...q.options]; shuffle(shuffled);
+
+  // Strip original A/B/C/D labels and re-assign based on visual position
+  const LABELS = ['A', 'B', 'C', 'D', 'E'];
+  const opts = shuffled.map((opt, i) =>
+    i < LABELS.length ? `${LABELS[i]}. ${stripOptionLabel(opt)}` : stripOptionLabel(opt)
+  );
+
+  // Find the correct option by matching stripped content
+  const answerStripped = stripOptionLabel(q.answer);
+  const correct = opts.find(o => stripOptionLabel(o) === answerStripped) || opts[0];
 
   document.getElementById('progressText').textContent = `Câu ${state.current + 1} / ${state.total}`;
   document.getElementById('scoreText').textContent    = `Đúng: ${state.score}`;
@@ -551,7 +566,7 @@ function renderQuestion() {
     const btn = document.createElement('div');
     btn.className = 'opt-btn';
     btn.innerHTML = `<span class="material-icons-round icon">radio_button_unchecked</span><span>${escHtml(opt)}</span>`;
-    btn.addEventListener('click', () => selectOption(opt, opts, q.answer, q.explanation));
+    btn.addEventListener('click', () => selectOption(opt, opts, correct, q.explanation));
     container.appendChild(btn);
   });
 

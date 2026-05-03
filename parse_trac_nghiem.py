@@ -14,8 +14,26 @@ def parse_trac_nghiem_files(json_file):
     else:
         data = {"questions": [], "sections": []}
     
-    questions = data.get('questions', [])
-    sections = data.get('sections', [])
+    # Keep only questions NOT from the markdown files we are about to parse
+    # (prevents duplicates on re-run)
+    md_section_keys = set()
+    temp_files = glob.glob('data/LSD/*_trac_nghiem.md')
+    for mf in temp_files:
+        base = os.path.basename(mf).replace('_trac_nghiem.md', '')
+        if base == 'chuong_mo_dau':
+            md_section_keys.add("Chương mở đầu: Trắc nghiệm")
+        elif base.startswith('giai_doan_'):
+            parts = base.split('_')
+            if len(parts) >= 4:
+                md_section_keys.add(f"Giai đoạn {parts[2]}-{parts[3]}: Trắc nghiệm")
+            else:
+                md_section_keys.add(f"{base}: Trắc nghiệm")
+        else:
+            md_section_keys.add(f"{base}: Trắc nghiệm")
+
+    existing_questions = data.get('questions', [])
+    questions = [q for q in existing_questions if q.get('section') not in md_section_keys]
+    sections = [s for s in data.get('sections', []) if s.get('key') not in md_section_keys]
     
     # Lấy danh sách file markdown
     md_files = glob.glob('data/LSD/*_trac_nghiem.md')
@@ -73,7 +91,8 @@ def parse_trac_nghiem_files(json_file):
             is_junk = False
             for text in [question_text] + options:
                 lower_text = text.lower()
-                if "biến thể" in lower_text or "nhận định sai lầm" in lower_text or "nội dung sai lệch" in lower_text:
+                if ("biến thể" in lower_text or "nhận định sai lầm" in lower_text
+                        or "nội dung sai lệch" in lower_text or "đáp án sai" in lower_text):
                     is_junk = True
                     break
             
