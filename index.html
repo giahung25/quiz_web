@@ -124,6 +124,15 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 .pdf-viewer-wrap iframe { flex: 1; width: 100%; border: none; border-radius: 12px; background: #fff; min-height: 500px; }
 .pdf-viewer-info { text-align: center; color: var(--grey); font-size: 0.85rem; margin-top: 8px; }
 
+/* AI Explanation */
+#aiExplanation { margin-top: 12px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; padding: 16px; font-size: 0.95rem; line-height: 1.6; color: #e2e8f0; display: none; }
+#aiExplanation ul, #aiExplanation ol { margin-left: 24px; margin-top: 8px; margin-bottom: 8px; }
+#aiExplanation li { margin-bottom: 4px; }
+#aiExplanation strong { color: var(--white); }
+#aiExplanation p { margin-bottom: 8px; }
+#aiExplanation p:last-child { margin-bottom: 0; }
+#aiExplanation code { background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #fb923c; }
+
 /* Result */
 #result{justify-content:flex-start;padding-top:24px;gap:16px}
 .score-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:32px;text-align:center;width:100%;max-width:600px;
@@ -212,6 +221,12 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
     <div class="radio-group" id="radioGroup"></div>
   </div>
 
+  <div class="config-card" id="apiKeyCard" style="display:none; margin-top: 16px;">
+    <label>Gemini API Key (Dùng để giải thích AI)</label>
+    <input type="password" id="geminiApiKey" placeholder="Nhập API Key..." style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid var(--card2); background: var(--bg2); color: var(--white); outline: none;">
+    <div style="font-size:0.75rem; color:var(--grey); margin-top:6px;">Sử dụng model gemini-2.5-flash-lite. Khóa được lưu tại trình duyệt cục bộ.</div>
+  </div>
+
   <div class="mode-btns" id="modeBtns" style="display:none">
     <button class="btn-pdf" id="btnPdf" style="display:none" onclick="startTheory('giaotrinh')">
       <span class="material-icons-round">picture_as_pdf</span> ĐỌC GIÁO TRÌNH
@@ -283,7 +298,11 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
     <div style="height:1px;background:var(--card2)"></div>
     <div class="options" id="optionsContainer"></div>
     <div class="feedback hidden" id="feedback"></div>
-    <button class="btn-next hidden" id="btnNext" onclick="nextQuestion()">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
+    <div id="aiExplanation"></div>
+    <div style="display:flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 8px;">
+      <button class="btn-outline hidden" id="btnExplain" onclick="explainQuestion()" style="padding: 12px 20px; font-size: 0.9rem; flex: 1; justify-content: center; border-color: var(--labelA); color: var(--labelA);"><span class="material-icons-round" style="font-size:18px">psychology</span> Giải thích</button>
+      <button class="btn-next hidden" id="btnNext" onclick="nextQuestion()" style="flex: 1; justify-content: center;">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
+    </div>
   </div>
 </div>
 
@@ -324,6 +343,7 @@ function pickSubject(key) {
 function goSubjectPicker() {
   document.getElementById('loader').style.display = '';
   document.getElementById('configCard').style.display = 'none';
+  document.getElementById('apiKeyCard').style.display = 'none';
   document.getElementById('modeBtns').style.display = 'none';
   document.getElementById('btnBack').style.display = 'none';
   document.getElementById('appSubtitle').textContent = 'Đang tải dữ liệu...';
@@ -383,9 +403,16 @@ async function loadSubjectData(key) {
 
   buildRadioGroup();
   document.getElementById('configCard').style.display = '';
+  document.getElementById('apiKeyCard').style.display = '';
   document.getElementById('modeBtns').style.display = '';
   document.getElementById('btnBack').style.display    = '';
   document.getElementById('btnStart').disabled = state.allQ.length === 0;
+  
+  const storedKey = localStorage.getItem('geminiApiKey');
+  if (storedKey) document.getElementById('geminiApiKey').value = storedKey;
+  document.getElementById('geminiApiKey').addEventListener('input', (e) => {
+      localStorage.setItem('geminiApiKey', e.target.value);
+  });
   
   if (THEORY_DATA && THEORY_DATA.chapters && THEORY_DATA.chapters.length > 0) {
       document.getElementById('btnTheory').style.display = 'flex';
@@ -557,6 +584,9 @@ function renderQuestion() {
 
   document.getElementById('feedback').classList.add('hidden');
   document.getElementById('btnNext').classList.add('hidden');
+  document.getElementById('btnExplain').classList.add('hidden');
+  document.getElementById('aiExplanation').style.display = 'none';
+  document.getElementById('aiExplanation').innerHTML = '';
 }
 
 function selectOption(chosen, opts, correct, explanation) {
@@ -597,6 +627,49 @@ function selectOption(chosen, opts, correct, explanation) {
   
   fb.innerHTML = fbHtml;
   document.getElementById('btnNext').classList.remove('hidden');
+  document.getElementById('btnExplain').classList.remove('hidden');
+}
+
+async function explainQuestion() {
+    const apiKey = localStorage.getItem('geminiApiKey');
+    if (!apiKey) {
+        alert('Vui lòng nhập Gemini API Key ở màn hình chính để sử dụng tính năng này.');
+        return;
+    }
+    
+    const expDiv = document.getElementById('aiExplanation');
+    expDiv.style.display = 'block';
+    expDiv.innerHTML = '<div style="display:flex; align-items:center; gap:8px; color:var(--labelA);"><div class="spinner" style="width:20px;height:20px;border-width:2px;border-top-color:var(--labelA);"></div> AI đang suy nghĩ...</div>';
+    
+    const q = state.questions[state.current];
+    const chosen = state.selected;
+    const correct = q.answer;
+    
+    const prompt = `Câu hỏi: ${q.question}\nCác đáp án: ${q.options.join(' | ')}\nNgười dùng chọn: ${chosen}\nĐáp án đúng: ${correct}\nHãy giải thích ngắn gọn, dễ hiểu tại sao đáp án "${correct}" là đúng. Nếu có thể, hãy giải thích thêm tại sao các đáp án khác sai. Phân tích bám sát kiến thức môn học. Trả lời bằng tiếng Việt.`;
+    
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: { maxOutputTokens: 800, temperature: 0.3 }
+            })
+        });
+        
+        if (!response.ok) throw new Error('Lỗi gọi API. Vui lòng kiểm tra lại API Key hoặc giới hạn truy cập.');
+        
+        const data = await response.json();
+        const text = data.candidates[0].content.parts[0].text;
+        
+        if (typeof marked !== 'undefined') {
+            expDiv.innerHTML = marked.parse(text);
+        } else {
+            expDiv.innerHTML = `<div style="white-space:pre-wrap;">${escHtml(text)}</div>`;
+        }
+    } catch (e) {
+        expDiv.innerHTML = `<div style="color:var(--red);"><span class="material-icons-round" style="font-size:16px;">error</span> ${escHtml(e.message)}</div>`;
+    }
 }
 
 function nextQuestion() {
