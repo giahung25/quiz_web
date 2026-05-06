@@ -243,7 +243,10 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
     
     <div id="openrouterConfig" style="display:none;">
       <input type="password" id="orApiKey" placeholder="Nhập OpenRouter API Key..." value="" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid var(--card2); background: var(--bg2); color: var(--white); outline: none;">
-      <div style="font-size:0.75rem; color:var(--grey); margin-top:6px;">Model: openrouter/free. Đã tích hợp sẵn key miễn phí.</div>
+      <div style="font-size:0.75rem; color:var(--grey); margin-top:6px; display:flex; justify-content:space-between; align-items:center;">
+        <span>Model: openrouter/free. Khóa được lưu tại trình duyệt cục bộ.</span>
+        <a href="#" onclick="alert('HƯỚNG DẪN LẤY OPENROUTER API KEY MIỄN PHÍ:\n\n1. Truy cập trang web: openrouter.ai\n2. Đăng ký/Đăng nhập tài khoản bằng Google.\n3. Vào mục Keys (Góc phải màn hình) và bấm Create Key.\n4. Đặt tên bất kỳ và bấm Create.\n5. Copy đoạn mã bắt đầu bằng sk-or-v1... và dán vào ô bên trên.\n\nKey này là hoàn toàn miễn phí và không giới hạn thời gian cho model openrouter/free.')" style="color:var(--primary); text-decoration:none; font-weight:bold;">Cách lấy Key?</a>
+      </div>
     </div>
   </div>
 
@@ -453,14 +456,8 @@ async function loadSubjectData(key) {
       localStorage.setItem('geminiApiKey', e.target.value);
   });
   
-  const defaultOrKey = atob('c2stb3ItdjEtODBiY2EyMzA2NGFkMDU4OWEwNmYwZDU0YjBmMzg2MzI3ODlkODM3ODY2YTY0ZTM4YWJlMWVkNWYwOWM1NzM2MA==');
   const storedOrKey = localStorage.getItem('orApiKey');
-  if (storedOrKey) {
-      document.getElementById('orApiKey').value = storedOrKey;
-  } else {
-      document.getElementById('orApiKey').value = defaultOrKey;
-      localStorage.setItem('orApiKey', defaultOrKey);
-  }
+  if (storedOrKey) document.getElementById('orApiKey').value = storedOrKey;
   document.getElementById('orApiKey').addEventListener('input', (e) => {
       localStorage.setItem('orApiKey', e.target.value);
   });
