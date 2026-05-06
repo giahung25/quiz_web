@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Đa Máy - Giám Đốc B</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        [v-cloak] { display: none; }
+        .sticky-header { position: sticky; top: 0; z-index: 10; background: white; }
+        .row-just-saved { animation: highlight 2s ease-out; }
+        @keyframes highlight { 0% { background-color: #dcfce7; } 100% { background-color: transparent; } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <div id="app" v-cloak class="min-h-screen p-4 md:p-8">
+        <!-- Header -->
+        <header class="max-w-7xl mx-auto mb-8 bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-indigo-700 flex items-center gap-2">
+                        <span class="relative flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        </span>
+                        Hệ Thống Chỉnh Sửa Tập Trung
+                    </h1>
+                    <p class="text-gray-500">Đang đồng bộ với: <code class="bg-gray-100 px-2 py-0.5 rounded text-indigo-600">tracnghiem_LSD_chuong_gemini.json</code></p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <div class="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg border">
+                        <input type="checkbox" id="autoSave" v-model="autoSave" class="w-4 h-4 text-indigo-600">
+                        <label for="autoSave" class="text-sm font-bold text-gray-700 cursor-pointer">TỰ ĐỘNG LƯU SERVER</label>
+                    </div>
+                    <button @click="fetchFromServer" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition font-medium flex items-center gap-2 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        Tải lại từ Server
+                    </button>
+                    <button @click="saveFile" :disabled="!isModified" class="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition font-medium flex items-center gap-2 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                        Lưu thủ công
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div v-if="sections.length > 0" class="mt-6 flex flex-wrap gap-3 border-t pt-4">
+                <div v-for="sec in sections" :key="sec.key" class="bg-indigo-50 px-3 py-1 rounded-full text-xs font-semibold text-indigo-700 border border-indigo-100 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                    {{ sec.label }}: <span class="text-indigo-900 ml-1">{{ countBySection(sec.key) }} câu</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto">
+            <div v-if="isLoading" class="text-center py-20 bg-white rounded-xl border border-gray-200 shadow-sm">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent mb-4"></div>
+                <p class="text-gray-500 font-medium">Đang tải dữ liệu từ máy chủ...</p>
+            </div>
+
+            <div v-else-if="questions.length > 0">
+                <!-- Toolbar -->
+                <div class="bg-white p-4 rounded-t-xl border border-gray-200 sticky-header flex flex-wrap gap-4 items-center shadow-sm">
+                    <div class="flex-1 min-w-[300px]">
+                        <input v-model="searchQuery" type="text" placeholder="Tìm nội dung câu hỏi..." class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                    </div>
+                    <div class="flex gap-2">
+                        <select v-model="filterSection" class="border rounded-lg px-4 py-2 bg-white outline-none focus:border-indigo-500">
+                            <option value="">Tất cả Chương</option>
+                            <option v-for="sec in sections" :key="sec.key" :value="sec.key">{{ sec.label }}</option>
+                        </select>
+                        <select v-model="pageSize" class="border rounded-lg px-2 py-1 bg-white outline-none">
+                            <option :value="20">20 / trang</option>
+                            <option :value="50">50 / trang</option>
+                            <option :value="100">100 / trang</option>
+                        </select>
+                    </div>
+
+                    <!-- Bulk Actions -->
+                    <div v-if="selectedIds.size > 0" class="flex items-center gap-3 bg-indigo-50 px-4 py-2 rounded-lg border border-indigo-200 animate-pulse">
+                        <span class="text-sm font-bold text-indigo-700">Đã chọn: {{ selectedIds.size }} câu</span>
+                        <select @change="bulkChangeSection($event.target.value)" class="border rounded px-2 py-1 text-sm outline-none focus:border-indigo-500">
+                            <option value="">Chuyển Chương hàng loạt...</option>
+                            <option v-for="sec in sections" :key="sec.key" :value="sec.key">{{ sec.label }}</option>
+                        </select>
+                        <button @click="selectedIds.clear()" class="text-red-500 hover:text-red-700 text-xs font-black">HỦY</button>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="bg-white border-x border-b border-gray-200 overflow-hidden shadow-md">
+                    <table class="w-full text-left border-collapse table-fixed">
+                        <thead>
+                            <tr class="bg-gray-50 text-gray-600 text-xs font-bold uppercase tracking-wider">
+                                <th class="px-4 py-3 border-b w-12 text-center">
+                                    <input type="checkbox" @change="toggleSelectAll" :checked="isAllSelected" class="w-4 h-4">
+                                </th>
+                                <th class="px-4 py-3 border-b w-20">STT</th>
+                                <th class="px-4 py-3 border-b">Nội dung câu hỏi</th>
+                                <th class="px-4 py-3 border-b w-72">Chọn Chương</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(q, idx) in pagedQuestions" :key="q.originalIdx" class="hover:bg-blue-50/30 border-b transition-colors">
+                                <td class="px-4 py-4 text-center">
+                                    <input type="checkbox" :checked="selectedIds.has(q.originalIdx)" @change="toggleSelect(q.originalIdx)" class="w-4 h-4">
+                                </td>
+                                <td class="px-4 py-4 text-gray-400 font-mono text-xs">#{{ q.originalIdx + 1 }}</td>
+                                <td class="px-4 py-4 pr-8">
+                                    <p class="text-sm font-medium leading-relaxed line-clamp-2 hover:line-clamp-none transition-all cursor-help" :title="q.question">
+                                        {{ q.question }}
+                                    </p>
+                                    <div class="mt-1 flex items-center gap-2">
+                                        <span class="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-700 rounded font-bold uppercase">Đáp án: {{ q.answer }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <select :value="q.section" @change="updateSection(q.originalIdx, $event.target.value)" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white font-medium">
+                                        <option v-for="sec in sections" :key="sec.key" :value="sec.key">{{ sec.label }}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Footer -->
+                <div class="bg-white p-4 rounded-b-xl border-x border-b border-gray-200 flex justify-between items-center shadow-lg">
+                    <p class="text-sm text-gray-500">
+                        Hiển thị <strong>{{ pageStart + 1 }}</strong> - <strong>{{ pageEnd }}</strong> / {{ filteredQuestions.length }} câu
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <button @click="currentPage--" :disabled="currentPage === 1" class="px-4 py-2 border rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium text-sm transition-all">Trang Trước</button>
+                        <div class="bg-indigo-600 text-white px-4 py-1.5 rounded-lg font-bold shadow-md shadow-indigo-200">
+                            Trang {{ currentPage }} / {{ totalPages }}
+                        </div>
+                        <button @click="currentPage++" :disabled="currentPage === totalPages" class="px-4 py-2 border rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed font-medium text-sm transition-all">Trang Sau</button>
+                    </div>
+                </div>
+            </div>
+
+            <div v-else class="text-center py-20 bg-white rounded-xl border-2 border-dashed border-gray-300 shadow-inner">
+                <div class="text-red-500 mb-4">
+                    <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-700">LỖI KẾT NỐI SERVER</h3>
+                <p class="text-gray-400 mt-2 italic">Hãy đảm bảo file server_backend.py đang chạy!</p>
+                <button @click="fetchFromServer" class="mt-6 bg-indigo-600 text-white px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform">THỬ LẠI NGAY</button>
+            </div>
+        </main>
+
+        <!-- Notification -->
+        <transition name="fade">
+            <div v-if="notification" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900/90 text-white px-8 py-3 rounded-2xl shadow-2xl z-50 flex items-center gap-3 backdrop-blur-sm border border-white/10 font-bold uppercase tracking-widest text-xs">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                {{ notification }}
+            </div>
+        </transition>
+    </div>
+
+    <script>
+        const { createApp, ref, computed, watch, onMounted } = Vue;
+
+        createApp({
+            setup() {
+                const subject = ref('');
+                const sections = ref([]);
+                const questions = ref([]);
+                const originalData = ref(null);
+                const isModified = ref(false);
+                const notification = ref('');
+                const isLoading = ref(true);
+                const autoSave = ref(true); // Mặc định tự động lưu
+
+                const searchQuery = ref('');
+                const filterSection = ref('');
+                const pageSize = ref(50);
+                const currentPage = ref(1);
+                const selectedIds = ref(new Set());
+
+                // Tải dữ liệu từ Server
+                const fetchFromServer = async () => {
+                    isLoading.value = true;
+                    try {
+                        // Thêm timestamp để tránh cache trình duyệt
+                        const response = await fetch(`tracnghiem_LSD_chuong_gemini.json?t=${new Date().getTime()}`);
+                        if (response.ok) {
+                            const data = await response.json();
+                            originalData.value = JSON.parse(JSON.stringify(data));
+                            subject.value = data.subject;
+                            sections.value = data.sections;
+                            questions.value = data.questions;
+                            isModified.value = false;
+                            showNotification('🔄 ĐÃ ĐỒNG BỘ DỮ LIỆU MỚI NHẤT');
+                        } else {
+                            throw new Error('Không tìm thấy file trên server');
+                        }
+                    } catch (err) {
+                        console.error('Lỗi fetch:', err);
+                        showNotification('❌ LỖI KẾT NỐI SERVER');
+                    } finally {
+                        isLoading.value = false;
+                    }
+                };
+
+                const saveToServer = async () => {
+                    const output = {
+                        ...originalData.value,
+                        questions: questions.value
+                    };
+                    try {
+                        const response = await fetch('/save-json', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ content: output })
+                        });
+                        if (response.ok) {
+                            isModified.value = false;
+                            showNotification('💾 ĐÃ LƯU VÀO FILE GỐC');
+                        }
+                    } catch (err) {
+                        showNotification('❌ LỖI LƯU FILE');
+                    }
+                };
+
+                const updateSection = (idx, newSectionKey) => {
+                    const sectionInfo = sections.value.find(s => s.key === newSectionKey);
+                    if (sectionInfo) {
+                        questions.value[idx].section = newSectionKey;
+                        questions.value[idx].sectionLabel = sectionInfo.label;
+                        isModified.value = true;
+                        if (autoSave.value) saveToServer();
+                    }
+                };
+
+                const bulkChangeSection = (newSectionKey) => {
+                    if (!newSectionKey) return;
+                    const sectionInfo = sections.value.find(s => s.key === newSectionKey);
+                    const count = selectedIds.value.size;
+                    
+                    selectedIds.value.forEach(idx => {
+                        questions.value[idx].section = newSectionKey;
+                        questions.value[idx].sectionLabel = sectionInfo.label;
+                    });
+                    
+                    isModified.value = true;
+                    selectedIds.value.clear();
+                    showNotification(`⚡ ĐÃ CẬP NHẬT ${count} CÂU`);
+                    if (autoSave.value) saveToServer();
+                };
+
+                const filteredQuestions = computed(() => {
+                    let result = questions.value.map((q, idx) => ({ ...q, originalIdx: idx }));
+                    if (filterSection.value) result = result.filter(q => q.section === filterSection.value);
+                    if (searchQuery.value) {
+                        const q = searchQuery.value.toLowerCase();
+                        result = result.filter(item => item.question.toLowerCase().includes(q));
+                    }
+                    return result;
+                });
+
+                const totalPages = computed(() => Math.ceil(filteredQuestions.value.length / pageSize.value) || 1);
+                const pageStart = computed(() => (currentPage.value - 1) * pageSize.value);
+                const pageEnd = computed(() => Math.min(pageStart.value + pageSize.value, filteredQuestions.value.length));
+                const pagedQuestions = computed(() => filteredQuestions.value.slice(pageStart.value, pageStart.value + pageSize.value));
+                const isAllSelected = computed(() => pagedQuestions.value.length > 0 && pagedQuestions.value.every(q => selectedIds.value.has(q.originalIdx)));
+                const toggleSelectAll = (e) => {
+                    if (e.target.checked) pagedQuestions.value.forEach(q => selectedIds.value.add(q.originalIdx));
+                    else pagedQuestions.value.forEach(q => selectedIds.value.delete(q.originalIdx));
+                };
+                const toggleSelect = (idx) => { selectedIds.value.has(idx) ? selectedIds.value.delete(idx) : selectedIds.value.add(idx); };
+                const countBySection = (key) => questions.value.filter(q => q.section === key).length;
+                const showNotification = (msg) => { notification.value = msg; setTimeout(() => notification.value = '', 2500); };
+
+                watch([searchQuery, filterSection, pageSize], () => currentPage.value = 1);
+                onMounted(fetchFromServer);
+
+                return {
+                    subject, sections, questions, isModified, notification, isLoading, autoSave,
+                    searchQuery, filterSection, pageSize, currentPage,
+                    filteredQuestions, totalPages, pageStart, pageEnd, pagedQuestions,
+                    updateSection, countBySection, saveFile: saveToServer, fetchFromServer,
+                    selectedIds, isAllSelected, toggleSelectAll, toggleSelect, bulkChangeSection
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
