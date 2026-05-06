@@ -453,8 +453,14 @@ async function loadSubjectData(key) {
       localStorage.setItem('geminiApiKey', e.target.value);
   });
   
+  const defaultOrKey = atob('c2stb3ItdjEtODBiY2EyMzA2NGFkMDU4OWEwNmYwZDU0YjBmMzg2MzI3ODlkODM3ODY2YTY0ZTM4YWJlMWVkNWYwOWM1NzM2MA==');
   const storedOrKey = localStorage.getItem('orApiKey');
-  if (storedOrKey) document.getElementById('orApiKey').value = storedOrKey;
+  if (storedOrKey) {
+      document.getElementById('orApiKey').value = storedOrKey;
+  } else {
+      document.getElementById('orApiKey').value = defaultOrKey;
+      localStorage.setItem('orApiKey', defaultOrKey);
+  }
   document.getElementById('orApiKey').addEventListener('input', (e) => {
       localStorage.setItem('orApiKey', e.target.value);
   });
