@@ -26,7 +26,7 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
                 
                 with file_lock:
                     # Ghi đè trực tiếp vào file mục tiêu
-                    with open(TARGET_FILE, 'w', encoding='utf-8-sig') as f:
+                    with open(TARGET_FILE, 'w', encoding='utf-8') as f:
                         json.dump(content, f, ensure_ascii=False, indent=2)
                 
                 self.send_response(200)

@@ -187,7 +187,10 @@
                         // Thêm timestamp để tránh cache trình duyệt
                         const response = await fetch(`tracnghiem_LSD_chuong_gemini.json?t=${new Date().getTime()}`);
                         if (response.ok) {
-                            const data = await response.json();
+                            // Loại bỏ BOM (utf-8-sig) nếu có trước khi parse JSON
+                            let text = await response.text();
+                            if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+                            const data = JSON.parse(text);
                             originalData.value = JSON.parse(JSON.stringify(data));
                             subject.value = data.subject;
                             sections.value = data.sections;
