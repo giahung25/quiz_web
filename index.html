@@ -302,16 +302,11 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
     <div style="height:1px;background:var(--card2)"></div>
     <div class="options" id="optionsContainer"></div>
     <div class="feedback hidden" id="feedback"></div>
-<<<<<<< HEAD
     <div id="aiExplanation"></div>
-    <div style="display:flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 8px;">
-      <button class="btn-outline hidden" id="btnExplain" onclick="explainQuestion()" style="padding: 12px 20px; font-size: 0.9rem; flex: 1; justify-content: center; border-color: var(--labelA); color: var(--labelA);"><span class="material-icons-round" style="font-size:18px">psychology</span> Giải thích</button>
-      <button class="btn-next hidden" id="btnNext" onclick="nextQuestion()" style="flex: 1; justify-content: center;">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
-=======
     <div class="btn-nav-row">
       <button class="btn-prev hidden" id="btnPrev" onclick="prevQuestion()"><span class="material-icons-round" style="font-size:18px">arrow_back</span> Câu trước</button>
+      <button class="btn-outline hidden" id="btnExplain" onclick="explainQuestion()" style="padding: 12px 20px; font-size: 0.9rem; border-color: var(--labelA); color: var(--labelA);"><span class="material-icons-round" style="font-size:18px">psychology</span> Giải thích AI</button>
       <button class="btn-next hidden" id="btnNext" onclick="nextQuestion()">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
->>>>>>> d709a0c1b52d844d9421be376498eb95e0229d47
     </div>
   </div>
 </div>
@@ -613,16 +608,11 @@ function renderQuestion() {
     container.appendChild(btn);
   });
 
-<<<<<<< HEAD
-  document.getElementById('feedback').classList.add('hidden');
-  document.getElementById('btnNext').classList.add('hidden');
-  document.getElementById('btnExplain').classList.add('hidden');
-  document.getElementById('aiExplanation').style.display = 'none';
-  document.getElementById('aiExplanation').innerHTML = '';
-=======
   const fb      = document.getElementById('feedback');
   const btnNext = document.getElementById('btnNext');
   const btnPrev = document.getElementById('btnPrev');
+  const btnExp  = document.getElementById('btnExplain');
+  const aiExp   = document.getElementById('aiExplanation');
 
   if (prevAnswer) {
     // Restore answered state for a previously visited question
@@ -652,10 +642,15 @@ function renderQuestion() {
     }
     fb.innerHTML = fbHtml;
     btnNext.classList.remove('hidden');
+    btnExp.classList.remove('hidden');
   } else {
     fb.classList.add('hidden');
     btnNext.classList.add('hidden');
+    btnExp.classList.add('hidden');
   }
+
+  aiExp.style.display = 'none';
+  aiExp.innerHTML = '';
 
   // Show prev button only when there is a previous question
   if (state.current > 0) {
@@ -663,7 +658,6 @@ function renderQuestion() {
   } else {
     btnPrev.classList.add('hidden');
   }
->>>>>>> d709a0c1b52d844d9421be376498eb95e0229d47
 }
 
 function selectOption(chosen, opts, correct, explanation) {
