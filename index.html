@@ -87,8 +87,12 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
 .feedback.ok{color:var(--green)}
 .feedback.fail{color:var(--red)}
 .feedback .correct-ans{color:var(--yellow);font-weight:500}
-.btn-next{align-self:flex-end;background:var(--primary);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:.9rem;font-weight:600;
+.btn-nav-row{display:flex;align-items:center;gap:8px;align-self:stretch}
+.btn-prev{background:var(--card2);color:var(--white);border:1px solid rgba(255,255,255,0.1);padding:12px 28px;border-radius:24px;font-size:.9rem;font-weight:600;
   cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-prev:hover{background:#334155;transform:translateY(-1px)}
+.btn-next{background:var(--primary);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:.9rem;font-weight:600;
+  cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;margin-left:auto}
 .btn-next:hover{background:#2563eb;transform:translateY(-1px)}
 
 /* Theory Screen */
@@ -298,10 +302,16 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
     <div style="height:1px;background:var(--card2)"></div>
     <div class="options" id="optionsContainer"></div>
     <div class="feedback hidden" id="feedback"></div>
+<<<<<<< HEAD
     <div id="aiExplanation"></div>
     <div style="display:flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 8px;">
       <button class="btn-outline hidden" id="btnExplain" onclick="explainQuestion()" style="padding: 12px 20px; font-size: 0.9rem; flex: 1; justify-content: center; border-color: var(--labelA); color: var(--labelA);"><span class="material-icons-round" style="font-size:18px">psychology</span> Giải thích</button>
       <button class="btn-next hidden" id="btnNext" onclick="nextQuestion()" style="flex: 1; justify-content: center;">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
+=======
+    <div class="btn-nav-row">
+      <button class="btn-prev hidden" id="btnPrev" onclick="prevQuestion()"><span class="material-icons-round" style="font-size:18px">arrow_back</span> Câu trước</button>
+      <button class="btn-next hidden" id="btnNext" onclick="nextQuestion()">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
+>>>>>>> d709a0c1b52d844d9421be376498eb95e0229d47
     </div>
   </div>
 </div>
@@ -381,7 +391,8 @@ async function loadSubjectData(key) {
       const text = (q.question + " " + (q.options || []).join(" ")).toLowerCase();
       return !text.includes("biến thể") && 
              !text.includes("nhận định sai lầm") && 
-             !text.includes("nội dung sai lệch");
+             !text.includes("nội dung sai lệch") &&
+             !text.includes("đáp án sai");
   });
 
   // Recalculate section counts after filtering
@@ -551,13 +562,34 @@ function startQuiz() {
   state.total     = pool.length;
   state.current   = 0; state.score = 0;
   state.selected  = null; state.answered = false; state.results = [];
+  state.questionData = {}; state.answeredMap = {};
   showScreen('quiz');
   renderQuestion();
 }
 
+function stripOptionLabel(s) {
+  return s.replace(/^[A-Ea-e]\.\s+/, '').trim();
+}
+
 function renderQuestion() {
   const q = state.questions[state.current];
-  const opts = [...q.options]; shuffle(opts);
+
+  // Get or create stable shuffled options so they stay consistent when revisiting
+  if (!state.questionData[state.current]) {
+    const shuffled = [...q.options]; shuffle(shuffled);
+    const LABELS = ['A', 'B', 'C', 'D', 'E'];
+    const opts = shuffled.map((opt, i) =>
+      i < LABELS.length ? `${LABELS[i]}. ${stripOptionLabel(opt)}` : stripOptionLabel(opt)
+    );
+    const answerStripped = stripOptionLabel(q.answer);
+    const correct = opts.find(o => stripOptionLabel(o) === answerStripped) || opts[0];
+    state.questionData[state.current] = { opts, correct };
+  }
+
+  const { opts, correct } = state.questionData[state.current];
+  const prevAnswer = state.answeredMap[state.current];
+  state.answered = !!prevAnswer;
+  state.selected = prevAnswer ? prevAnswer.chosen : null;
 
   document.getElementById('progressText').textContent = `Câu ${state.current + 1} / ${state.total}`;
   document.getElementById('scoreText').textContent    = `Đúng: ${state.score}`;
@@ -572,21 +604,66 @@ function renderQuestion() {
 
   const container = document.getElementById('optionsContainer');
   container.innerHTML = '';
-  state.answered = false; state.selected = null;
 
   opts.forEach(opt => {
     const btn = document.createElement('div');
     btn.className = 'opt-btn';
     btn.innerHTML = `<span class="material-icons-round icon">radio_button_unchecked</span><span>${escHtml(opt)}</span>`;
-    btn.addEventListener('click', () => selectOption(opt, opts, q.answer, q.explanation));
+    btn.addEventListener('click', () => selectOption(opt, opts, correct, q.explanation));
     container.appendChild(btn);
   });
 
+<<<<<<< HEAD
   document.getElementById('feedback').classList.add('hidden');
   document.getElementById('btnNext').classList.add('hidden');
   document.getElementById('btnExplain').classList.add('hidden');
   document.getElementById('aiExplanation').style.display = 'none';
   document.getElementById('aiExplanation').innerHTML = '';
+=======
+  const fb      = document.getElementById('feedback');
+  const btnNext = document.getElementById('btnNext');
+  const btnPrev = document.getElementById('btnPrev');
+
+  if (prevAnswer) {
+    // Restore answered state for a previously visited question
+    const btns = document.querySelectorAll('#optionsContainer .opt-btn');
+    btns.forEach((btn, i) => {
+      btn.classList.add('disabled');
+      const optText = opts[i];
+      const icon    = btn.querySelector('.icon');
+      if (optText === correct)                           { btn.classList.add('correct'); icon.textContent = 'check_circle'; }
+      else if (optText === prevAnswer.chosen)            { btn.classList.add('wrong');   icon.textContent = 'cancel'; }
+    });
+
+    fb.classList.remove('hidden', 'ok', 'fail');
+    let fbHtml = '';
+    if (prevAnswer.ok) {
+      fb.classList.add('ok');
+      fbHtml = `<span class="material-icons-round icon">check_circle</span> Chính xác!`;
+    } else {
+      fb.classList.add('fail');
+      fbHtml = `<span class="material-icons-round icon">cancel</span> Sai! Đáp án đúng: <span class="correct-ans">${escHtml(correct)}</span>`;
+    }
+    if (q.explanation) {
+      fbHtml += `<div style="font-size:0.85em; color:var(--grey); margin-top:6px; width:100%; font-weight:normal;"><i>Giải thích: ${escHtml(q.explanation)}</i></div>`;
+      fb.style.flexWrap = 'wrap';
+    } else {
+      fb.style.flexWrap = 'nowrap';
+    }
+    fb.innerHTML = fbHtml;
+    btnNext.classList.remove('hidden');
+  } else {
+    fb.classList.add('hidden');
+    btnNext.classList.add('hidden');
+  }
+
+  // Show prev button only when there is a previous question
+  if (state.current > 0) {
+    btnPrev.classList.remove('hidden');
+  } else {
+    btnPrev.classList.add('hidden');
+  }
+>>>>>>> d709a0c1b52d844d9421be376498eb95e0229d47
 }
 
 function selectOption(chosen, opts, correct, explanation) {
@@ -594,7 +671,7 @@ function selectOption(chosen, opts, correct, explanation) {
   state.answered = true; state.selected = chosen;
   const ok = chosen === correct;
   if (ok) state.score++;
-  state.results.push({ question: state.questions[state.current].question, chosen, correct, ok });
+  state.answeredMap[state.current] = { chosen, ok };
 
   document.getElementById('scoreText').textContent = `Đúng: ${state.score}`;
 
@@ -679,8 +756,22 @@ function nextQuestion() {
   document.getElementById('optionsContainer').scrollTop = 0;
 }
 
+function prevQuestion() {
+  if (state.current <= 0) return;
+  state.current--;
+  renderQuestion();
+  document.getElementById('optionsContainer').scrollTop = 0;
+}
+
 // ── RESULT ──
 function showResult() {
+  // Build ordered results from answeredMap
+  state.results = state.questions.map((q, i) => {
+    const ans   = state.answeredMap[i];
+    const qData = state.questionData[i];
+    if (!ans || !qData) return null;
+    return { question: q.question, chosen: ans.chosen, correct: qData.correct, ok: ans.ok };
+  }).filter(Boolean);
   showScreen('result');
   const pct = (state.score / state.total) * 100;
   let gradeColor, gradeText, gradeIcon;
@@ -727,6 +818,7 @@ function escHtml(s){ const d=document.createElement('div'); d.textContent=s; ret
 document.addEventListener('keydown', e => {
   if (!document.getElementById('quiz').classList.contains('active')) return;
   if (e.key === 'Enter' && state.answered) { nextQuestion(); return; }
+  if (e.key === 'ArrowLeft' && state.current > 0) { prevQuestion(); return; }
   const num = parseInt(e.key);
   if (num >= 1 && num <= 4 && !state.answered) {
     const btns = document.querySelectorAll('#optionsContainer .opt-btn');
