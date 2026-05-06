@@ -245,11 +245,32 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
       <input type="password" id="orApiKey" placeholder="Nhập OpenRouter API Key..." value="" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid var(--card2); background: var(--bg2); color: var(--white); outline: none;">
       <div style="font-size:0.75rem; color:var(--grey); margin-top:6px; display:flex; justify-content:space-between; align-items:center;">
         <span>Model: openrouter/free. Khóa được lưu tại trình duyệt cục bộ.</span>
-        <a href="#" onclick="alert('HƯỚNG DẪN LẤY OPENROUTER API KEY MIỄN PHÍ:\n\n1. Truy cập trang web: openrouter.ai\n2. Đăng ký/Đăng nhập tài khoản bằng Google.\n3. Vào mục Keys (Góc phải màn hình) và bấm Create Key.\n4. Đặt tên bất kỳ và bấm Create.\n5. Copy đoạn mã bắt đầu bằng sk-or-v1... và dán vào ô bên trên.\n\nKey này là hoàn toàn miễn phí và không giới hạn thời gian cho model openrouter/free.')" style="color:var(--primary); text-decoration:none; font-weight:bold;">Cách lấy Key?</a>
+        <a href="#" onclick="document.getElementById('orGuideModal').style.display='flex'; event.preventDefault();" style="color:var(--primary); text-decoration:none; font-weight:bold;">Cách lấy Key?</a>
       </div>
     </div>
   </div>
 
+  <!-- Modal Hướng dẫn OpenRouter -->
+  <div id="orGuideModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center; padding:20px; box-sizing:border-box;">
+    <div style="background:var(--bg2); padding: 24px; border-radius:16px; max-width:500px; width:100%; color:var(--white); border: 1px solid var(--card2); box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+      <h3 style="margin-top:0; margin-bottom:16px; color:var(--primary); display:flex; align-items:center; gap:8px; font-size:1.2rem;">
+        <span class="material-icons-round">vpn_key</span> Lấy OpenRouter API Key
+      </h3>
+      <div style="font-size:0.95rem; line-height:1.6; color:var(--white);">
+        <p style="margin: 8px 0;"><strong>Bước 1:</strong> Truy cập trang web <a href="https://openrouter.ai" target="_blank" style="color:var(--primary); text-decoration:underline;">openrouter.ai</a></p>
+        <p style="margin: 8px 0;"><strong>Bước 2:</strong> Bấm <strong>Sign in</strong> và đăng nhập nhanh bằng tài khoản Google.</p>
+        <p style="margin: 8px 0;"><strong>Bước 3:</strong> Nhấn vào mục <strong>Keys</strong> ở góc phải màn hình, chọn <strong>Create Key</strong>.</p>
+        <p style="margin: 8px 0;"><strong>Bước 4:</strong> Đặt tên bất kỳ cho Key và nhấn Create.</p>
+        <p style="margin: 8px 0;"><strong>Bước 5:</strong> Copy đoạn mã được cấp (bắt đầu bằng <code>sk-or-v1-</code>) và dán vào ô bên dưới. <em>(Lưu ý: chỉ copy được 1 lần duy nhất)</em>.</p>
+        <div style="margin-top:16px; padding:12px; background:rgba(0, 229, 255, 0.1); border-left:4px solid var(--primary); border-radius:4px; font-size:0.85rem; color:var(--grey);">
+          Key này hoàn toàn miễn phí và không giới hạn lượt dùng cho tính năng AI giải thích (model openrouter/free).
+        </div>
+      </div>
+      <div style="text-align:right; margin-top:24px;">
+        <button onclick="document.getElementById('orGuideModal').style.display='none'" class="btn-primary" style="padding:10px 20px; font-size:0.9rem; border:none; border-radius:8px; cursor:pointer; background:var(--primary); color:#000; font-weight:bold;">Đã hiểu & Đóng</button>
+      </div>
+    </div>
+  </div>
   <div class="mode-btns" id="modeBtns" style="display:none">
     <button class="btn-pdf" id="btnPdf" style="display:none" onclick="startTheory('giaotrinh')">
       <span class="material-icons-round">picture_as_pdf</span> ĐỌC GIÁO TRÌNH
