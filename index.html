@@ -303,10 +303,10 @@ h1{font-size:2rem;font-weight:800;background:var(--primary-g);-webkit-background
     <div class="options" id="optionsContainer"></div>
     <div class="feedback hidden" id="feedback"></div>
     <div id="aiExplanation"></div>
-    <div class="btn-nav-row">
+    <div class="btn-nav-row" style="margin-top: 8px;">
       <button class="btn-prev hidden" id="btnPrev" onclick="prevQuestion()"><span class="material-icons-round" style="font-size:18px">arrow_back</span> Câu trước</button>
-      <button class="btn-outline hidden" id="btnExplain" onclick="explainQuestion()" style="padding: 12px 20px; font-size: 0.9rem; border-color: var(--labelA); color: var(--labelA);"><span class="material-icons-round" style="font-size:18px">psychology</span> Giải thích AI</button>
-      <button class="btn-next hidden" id="btnNext" onclick="nextQuestion()">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
+      <button class="btn-outline hidden" id="btnExplain" onclick="explainQuestion()" style="margin-left:auto; padding: 12px 20px; font-size: 0.9rem; border-color: var(--labelA); color: var(--labelA);"><span class="material-icons-round" style="font-size:18px">psychology</span> Giải thích</button>
+      <button class="btn-next hidden" id="btnNext" onclick="nextQuestion()" style="margin-left:8px;">Câu tiếp theo <span class="material-icons-round" style="font-size:18px">arrow_forward</span></button>
     </div>
   </div>
 </div>
@@ -441,6 +441,9 @@ function buildRadioGroup() {
   state.mode = 'all';
 
   const items = [{ key: 'all', label: `Tất cả (${state.allQ.length} câu)`, color: '#f1f5f9' }];
+  if (state.allQ.length >= 40) {
+    items.push({ key: 'random40', label: 'Thi thử (40 câu ngẫu nhiên)', color: '#facc15' });
+  }
   state.sections.forEach((s, i) =>
     items.push({ key: s.key, label: s.label, color: BADGE_COLORS[i % BADGE_COLORS.length] })
   );
@@ -549,10 +552,33 @@ function renderTheoryContent(chapter) {
 
 // ── QUIZ LOGIC ──
 function startQuiz() {
-  let pool = state.mode === 'all'
-    ? [...state.allQ]
-    : state.allQ.filter(q => q.section === state.mode);
-  shuffle(pool);
+  let pool = [];
+  if (state.mode === 'all') {
+    pool = [...state.allQ];
+    shuffle(pool);
+  } else if (state.mode === 'random40') {
+    const sections = state.sections.map(s => s.key);
+    const nSec = sections.length;
+    if (nSec > 0) {
+      const baseCount = Math.floor(40 / nSec);
+      let remainder = 40 % nSec;
+      sections.forEach(secKey => {
+         let count = baseCount + (remainder > 0 ? 1 : 0);
+         if (remainder > 0) remainder--;
+         let secQ = state.allQ.filter(q => q.section === secKey);
+         shuffle(secQ);
+         pool.push(...secQ.slice(0, count));
+      });
+      shuffle(pool);
+    } else {
+      pool = [...state.allQ];
+      shuffle(pool);
+      pool = pool.slice(0, 40);
+    }
+  } else {
+    pool = state.allQ.filter(q => q.section === state.mode);
+    shuffle(pool);
+  }
   state.questions = pool;
   state.total     = pool.length;
   state.current   = 0; state.score = 0;
@@ -611,8 +637,12 @@ function renderQuestion() {
   const fb      = document.getElementById('feedback');
   const btnNext = document.getElementById('btnNext');
   const btnPrev = document.getElementById('btnPrev');
-  const btnExp  = document.getElementById('btnExplain');
+  const btnExplain = document.getElementById('btnExplain');
   const aiExp   = document.getElementById('aiExplanation');
+
+  btnExplain.classList.add('hidden');
+  aiExp.style.display = 'none';
+  aiExp.innerHTML = '';
 
   if (prevAnswer) {
     // Restore answered state for a previously visited question
@@ -642,11 +672,11 @@ function renderQuestion() {
     }
     fb.innerHTML = fbHtml;
     btnNext.classList.remove('hidden');
-    btnExp.classList.remove('hidden');
+    btnExplain.classList.remove('hidden');
   } else {
     fb.classList.add('hidden');
     btnNext.classList.add('hidden');
-    btnExp.classList.add('hidden');
+    btnExplain.classList.add('hidden');
   }
 
   aiExp.style.display = 'none';
